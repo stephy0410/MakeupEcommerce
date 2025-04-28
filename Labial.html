@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Labial</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Euphoria+Script&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/4bb0cb35f0.js" crossorigin="anonymous"></script>
+        <style>
+            .textLabial {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                color: white;
+            }
+            .textLabial h1 {
+                font-size: 70px;
+            }
+            .overlay {
+                position: absolute; 
+                top: 0; 
+                left: 0; 
+                right: 0; 
+                bottom: 0; 
+                background-color: rgba(0, 0, 0, 0.4);
+            }
+            .labiales {
+                background-color: #6D2D2F;
+                width: 100%;
+                padding: 20px
+            }
+            .cardTitle-style {
+                font-size: 70px; 
+                font-family: 'Euphoria Script', cursive;
+                text-align: center;
+            }
+            .cardBody-style {
+                font-size: 20px;
+                font-family: 'Crimson Text', serif;
+                text-align: center;
+            }
+            .card-img-top {
+                max-height: 130px;
+                width: 100%;
+                object-fit: contain;
+            }
+            .card {
+                border-radius: 10px;
+                border: none;
+            }
+            .cardW {
+                max-width: 280px;
+                max-height: 350px;
+                margin: 0 auto;
+            }  
+            .cart-icon {
+                position: absolute;
+                right: 10px;
+                background-color: black;
+                color: white;
+                border-radius: 50%;
+                padding: 5px;
+                cursor: pointer;
+            }
+            .heart-icon {
+                font-size: 25px;
+                cursor: pointer;
+                padding: 5px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>
+            <nav
+                class="navbar navbar-expand-sm navbar-light bg-light"
+            >
+                <div class="container">
+                    <a class="navbar-brand" style="font-family: 'Euphoria Script', cursive;" href="./Home.html">Rosée</a>
+                    <button
+                        class="navbar-toggler d-lg-none"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapsibleNavId"
+                        aria-controls="collapsibleNavId"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="collapsibleNavId">
+                        <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="./Home.html" aria-current="page"
+                                    >Home
+                                    <span class="visually-hidden">(current)</span></a
+                                >
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./Home.html">Favoritos</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a
+                                    class="nav-link dropdown-toggle"
+                                    href="#"
+                                    id="dropdownId"
+                                    data-bs-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    >Productos</a
+                                >
+                                <div
+                                    class="dropdown-menu"
+                                    aria-labelledby="dropdownId"
+                                >
+                                    <a class="dropdown-item" href="./Primer.html"
+                                        >Primer</a
+                                    >
+                                    <a class="dropdown-item" href="./Blush.html"
+                                        >Blush</a
+                                    >
+                                    <a class="dropdown-item" href="./Rimel.html"
+                                        >Rimel</a
+                                    >
+                                    <a class="dropdown-item" href="./Labial.html"
+                                        >Labial</a
+                                    >
+                                </div>
+                            </li>
+                        </ul>
+                        <form class="d-flex my-2 my-lg-0">
+                            <input
+                                class="form-control me-sm-2"
+                                type="text"
+                                placeholder="Buscar" style="border-radius: 15px;"
+                            />
+                            <button
+                                class="btn btn-outline-success my-2 my-sm-0"
+                                type="submit" style="margin: 10px; border-radius: 15px; border-color: black; color: black"
+                            >
+                                Buscar
+                            </button>
+                        </form>
+                        <a href="./Carrito.html"><i class="fa-solid fa-cart-shopping" style="background-color: black; color: white; padding: 4px;"></i></a>
+                        <i class="fa-solid fa-gear" style="padding: 5px;" data-bs-toggle="modal" data-bs-target="#editUserModal"></i>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- Modal Body -->
+            <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+            <div
+                class="modal fade"
+                id="editUserModal"
+                tabindex="-1"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                
+                role="dialog"
+                aria-labelledby="modalTitleId"
+                aria-hidden="true"
+            >
+                <div
+                    class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+                    role="document"
+                >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">
+                                Editar Usuario
+                            </h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" name="nombre" id="nombre"
+                                    placeholder="Nombre" required=true />
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Correo</label>
+                                <input type="email" class="form-control" name="correo" id="correo"
+                                    placeholder="correo@gmail.com" required=true />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Cancelar
+                            </button>
+                            <button type="button" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Optional: Place to the bottom of scripts -->
+            <script>
+                const myModal = new bootstrap.Modal(
+                    document.getElementById("editUserModal"),
+                    options,
+                );
+            </script>
+            
+        </header>
+        <main>
+            <div style="position: relative;">
+                <img src="./Imagenes/Labial.png" style="height: auto; width: 100%;">
+                <div class="overlay"></div>
+                <div class="textLabial">
+                    <h1>Labial</h1>
+                    <p>Los mejores Labiales del mercado.</p>
+                </div>
+            </div>
+            <br>
+            <div class="labiales">
+            <div class="container">
+                <div class="row">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <!-- Imagén 1-->
+                            <div class="card cardW">
+                                <!-- Iconos -->
+                                <i class="fa-regular fa-heart heart-icon"></i>
+                                <i class="fa-solid fa-cart-shopping cart-icon"></i>
+                                                        
+                                <img
+                                    src="Imagenes/Labiales.webp"
+                                    class="card-img-top"
+                                    alt="Product 1 Image"
+                                />
+
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">Producto</h5>
+                                    <p class="card-text">Descripción de primer producto</p>
+                                    <p class="card-text"><b>$10.99</b></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <!-- Imagén 2-->
+                            <div class="card cardW">
+                                <!-- Iconos -->
+                                <i class="fa-regular fa-heart heart-icon"></i>
+                                <i class="fa-solid fa-cart-shopping cart-icon"></i>
+                                                        
+                                <img
+                                    src="Imagenes/Labiales.webp"
+                                    class="card-img-top"
+                                    alt="Product 1 Image"
+                                />
+
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">Producto</h5>
+                                    <p class="card-text">Descripción de primer producto</p>
+                                    <p class="card-text"><b>$10.99</b></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <!-- Imagén 3-->
+                            <div class="card cardW">
+                                <!-- Iconos -->
+                                <i class="fa-regular fa-heart heart-icon"></i>
+                                <i class="fa-solid fa-cart-shopping cart-icon"></i>
+                                                        
+                                <img
+                                    src="Imagenes/Labiales.webp"
+                                    class="card-img-top"
+                                    alt="Product 1 Image"
+                                />
+
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">Producto</h5>
+                                    <p class="card-text">Descripción de primer producto</p>
+                                    <p class="card-text"><b>$10.99</b></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <!-- Imagén 1-->
+                                <div class="card cardW">
+                                    <!-- Iconos -->
+                                    <i class="fa-regular fa-heart heart-icon"></i>
+                                    <i class="fa-solid fa-cart-shopping cart-icon"></i>
+                                                            
+                                    <img
+                                        src="Imagenes/Labiales.webp"
+                                        class="card-img-top"
+                                        alt="Product 1 Image"
+                                    />
+    
+                                    <div class="card-body d-flex flex-column">
+                                        <h5 class="card-title">Producto</h5>
+                                        <p class="card-text">Descripción de primer producto</p>
+                                        <p class="card-text"><b>$10.99</b></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <!-- Imagén 2-->
+                                <div class="card cardW">
+                                    <!-- Iconos -->
+                                    <i class="fa-regular fa-heart heart-icon"></i>
+                                    <i class="fa-solid fa-cart-shopping cart-icon"></i>
+                                                            
+                                    <img
+                                        src="Imagenes/Labiales.webp"
+                                        class="card-img-top"
+                                        alt="Product 1 Image"
+                                    />
+    
+                                    <div class="card-body d-flex flex-column">
+                                        <h5 class="card-title">Producto</h5>
+                                        <p class="card-text">Descripción de primer producto</p>
+                                        <p class="card-text"><b>$10.99</b></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <!-- Imagén 3-->
+                                <div class="card cardW">
+                                    <!-- Iconos -->
+                                    <i class="fa-regular fa-heart heart-icon"></i>
+                                    <i class="fa-solid fa-cart-shopping cart-icon"></i>
+                                                            
+                                    <img
+                                        src="Imagenes/Labiales.webp"
+                                        class="card-img-top"
+                                        alt="Product 1 Image"
+                                    />
+    
+                                    <div class="card-body d-flex flex-column">
+                                        <h5 class="card-title">Producto</h5>
+                                        <p class="card-text">Descripción de primer producto</p>
+                                        <p class="card-text"><b>$10.99</b></p>
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+            </div>
+            </div>
+            
+        </main>
+        <footer>
+            <!-- place footer here -->
+        </footer>
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>
