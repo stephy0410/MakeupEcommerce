@@ -169,8 +169,8 @@
                         <div class="card h-100" style="background-color: #434343; color: #f3f3f3;">
                             <div class="card-body" style="height: 680px; margin: 10px; overflow-y: auto; padding-right: 10px;">
                                 <!-- Titulo y subtitulo -->
-                                <h3>Shopping Cart</h3>
-                                <h6 style="color: #757575;">Products</h6><br>
+                                <h3>Carrito de compras</h3>
+                                <h6 style="color: #757575;">Productos</h6><br>
 
                                 <!-- Cartas del producto 1 -->
                                 <div class="card d-flex flex-column mb-3" style="background-color: #f3f3f3; height: 150px; overflow-y: auto;">
@@ -186,7 +186,7 @@
 
                                                 <div class="d-flex justify-content-between align-items-center mt-3">
                                                     <!-- Precio -->
-                                                    <b>Price: $369.00</b>
+                                                    <b>Precio: $369.00</b>
 
                                                     <div>
                                                         <i class="fa-solid fa-minus" style="color: blue; margin: 5px;"></i>
@@ -213,7 +213,7 @@
 
                                                 <div class="d-flex justify-content-between align-items-center mt-3">
                                                     <!-- Precio -->
-                                                    <b>Price: $109.00</b>
+                                                    <b>Precio: $109.00</b>
 
                                                     <div>
                                                         <i class="fa-solid fa-minus" style="color: blue; margin: 5px;"></i>
@@ -240,7 +240,7 @@
 
                                                 <div class="d-flex justify-content-between align-items-center mt-3">
                                                     <!-- Precio -->
-                                                    <b>Price: $110.00</b>
+                                                    <b>Precio: $110.00</b>
 
                                                     <div>
                                                         <i class="fa-solid fa-minus" style="color: blue; margin: 5px;"></i>
@@ -267,7 +267,7 @@
 
                                                 <div class="d-flex justify-content-between align-items-center mt-3">
                                                     <!-- Precio -->
-                                                    <b>Price: $682.63</b>
+                                                    <b>Precio: $682.63</b>
 
                                                     <div>
                                                         <i class="fa-solid fa-minus" style="color: blue; margin: 5px;"></i>
@@ -289,7 +289,7 @@
                             <div class="card-body" style="height: 680px; margin: 10px; overflow-y: auto; padding-right: 10px;">
                                 <!-- Titulo -->
                                 <b>
-                                    <h1 style=" text-align: center; border-bottom: 2px solid black; margin: 10px; padding-bottom: 5px;">Summary</h1>
+                                    <h1 style=" text-align: center; border-bottom: 2px solid black; margin: 10px; padding-bottom: 5px;">Resumen del pedido</h1>
                                 </b>
 
                                 <div style="margin: 40px;">
@@ -302,7 +302,7 @@
 
                                         <!-- Descuentos  -->
                                         <div class="d-flex justify-content-between mt-3">
-                                            <h5>Discount</h5>
+                                            <h5>Descuento</h5>
                                             <p>-$0</p>
                                         </div>
 
@@ -315,17 +315,17 @@
                                    
                                     <!-- Botones e inputs -->
                                     <div style="margin-top: 120px">
-                                        <label for="text">Location</label><br>
+                                        <label for="text">Dirección</label><br>
                                         <input type="text" required="true" name="location" id="location" placeholder="Domicilio o lugar de entrega" style="margin-top: 10px; border: none; border-radius: 5px; height: 40px; width: 100%; padding: 10px;"><br><br>
     
                                         <div style="display: flex; gap: 5px;">
-                                            <input type="text" name="disc_code" id="disc_code" placeholder="Discount Code" style="flex: 2; border: none; border-radius: 10px; height: 40px; padding: 10px;;">
-                                            <button type="button" style="flex: 1; background-color: #FFF; border: none; border-radius: 10px; margin-left: 5px; width: 140px; height: 40px; cursor: pointer;">Apply</button>
+                                            <input type="text" name="disc_code" id="disc_code" placeholder="Código de descuento" style="flex: 2; border: none; border-radius: 10px; height: 40px; padding: 10px;;">
+                                            <button type="button" style="flex: 1; background-color: #FFF; border: none; border-radius: 10px; margin-left: 5px; width: 140px; height: 40px; cursor: pointer;">Aplicar</button>
                                         </div>
                                     </div><br>
                                     
                                     <a data-bs-toggle="modal" data-bs-target="#Ship_Info" href="#">
-                                        <button type="button" style="background-color: #6D2D2F; color: #FFF; margin-top: 10px; border: none; border-radius: 5px; height: 40px; width: 100%; cursor: pointer;">Submit</button>
+                                        <button type="button" style="background-color: #6D2D2F; color: #FFF; margin-top: 10px; border: none; border-radius: 5px; height: 40px; width: 100%; cursor: pointer;">Pagar</button>
                                     </a>
                                 </div>
                             </div>
@@ -340,7 +340,7 @@
 
                                     <!-- Header del modal -->
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Shipping Information</h4>
+                                        <h4 class="modal-title">Información de envio</h4>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
 
@@ -349,10 +349,10 @@
                                         <label for="name" class="form-label">Nombre completo</label>
                                         <input type="text" class="form-control" required="true"><br>
 
-                                        <label for="text" class="form-label">Location</label>
+                                        <label for="text" class="form-label">Dirección</label>
                                         <input type="text" class="form-control" required="true" name="location" id="location" placeholder="Domicilio o lugar de entrega"><br>
     
-                                        <label for="text" class="form-label">Delivery note</label> 
+                                        <label for="text" class="form-label">Nota de entrega</label> 
                                         <textarea name="delivery_note" id="delivery_note" rows="5" cols="45" placeholder="Algún detalle que ayude al repartidor a encontrar el lugar..." style="padding: 10px;"></textarea><br><br>          
                                     
                                         <input type="checkbox" name="confirm_ckbx" value="chk1"> Acepto los <u>términos y condiciones</u>
