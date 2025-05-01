@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>Rimel</title>
+        <title>Blush</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta
@@ -19,7 +19,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Euphoria+Script&display=swap" rel="stylesheet">
         <script src="https://kit.fontawesome.com/4bb0cb35f0.js" crossorigin="anonymous"></script>
         <style>
-            .textRimel {
+            .textBlush {
                 position: absolute;
                 top: 50%;
                 left: 50%;
@@ -27,7 +27,7 @@
                 text-align: center;
                 color: white;
             }
-            .textRimel h1 {
+            .textBlush h1 {
                 font-size: 70px;
             }
             .overlay {
@@ -86,13 +86,11 @@
 
     <body>
         <header>
-            <nav
-                class="navbar navbar-expand-sm navbar-light bg-light"
-            >
+            <nav class="navbar navbar-expand-md navbar-light bg-light"> <!-- Cambiado a md -->
                 <div class="container">
                     <a class="navbar-brand" style="font-family: 'Euphoria Script', cursive;" href="./Home.html">Rosée</a>
                     <button
-                        class="navbar-toggler d-lg-none"
+                        class="navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#collapsibleNavId"
@@ -155,8 +153,13 @@
                                 Buscar
                             </button>
                         </form>
-                        <a href="./Carrito.html"><i class="fa-solid fa-cart-shopping" style="background-color: black; color: white; padding: 4px;"></i></a>
-                        <i class="fa-solid fa-gear" style="padding: 5px;" data-bs-toggle="modal" data-bs-target="#editUserModal"></i>
+                        <div class="d-flex align-items-center ms-2"> <!-- Contenedor para íconos alineados -->
+                            <a href="./Carrito.html" class="nav-link"><i class="fa-solid fa-cart-shopping" style="background-color: black; color: white; padding: 4px;"></i></a>
+                            <i class="fa-solid fa-gear nav-link" style="padding: 5px;" data-bs-toggle="modal" data-bs-target="#editUserModal"></i>
+                            <a class="nav-link" href="Login.html" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                                <i class="fas fa-sign-out-alt" style="cursor:pointer" title="Cerrar Sesión"></i> 
+                            </a>
+                        </div>
                     </div>
                 </div>
             </nav>
@@ -225,13 +228,14 @@
             </script>
             
         </header>
+        
         <main>
             <div style="position: relative;">
-                <img src="./Imagenes/Rimel.png" style="height: auto; width: 100%;">
+                <img src="../Imagenes/Blush.png" style="height: auto; width: 100%;">
                 <div class="overlay"></div>
-                <div class="textRimel">
-                    <h1>Rimel</h1>
-                    <p>Los mejores Rimeles del mercado.</p>
+                <div class="textBlush">
+                    <h1>BLUSH</h1>
+                    <p>Los mejores Blush del mercado.</p>
                 </div>
             </div>
             <br>
@@ -247,7 +251,7 @@
                                 <i class="fa-solid fa-cart-shopping cart-icon"></i>
                                                         
                                 <img
-                                    src="Imagenes/Rimeles.webp"
+                                    src="../Imagenes/Blushes.webp"
                                     class="card-img-top"
                                     alt="Product 1 Image"
                                 />
@@ -267,7 +271,7 @@
                                 <i class="fa-solid fa-cart-shopping cart-icon"></i>
                                                         
                                 <img
-                                    src="Imagenes/Rimeles.webp"
+                                    src="../Imagenes/Blushes.webp"
                                     class="card-img-top"
                                     alt="Product 1 Image"
                                 />
@@ -287,7 +291,7 @@
                                 <i class="fa-solid fa-cart-shopping cart-icon"></i>
                                                         
                                 <img
-                                    src="Imagenes/Rimeles.webp"
+                                    src="../Imagenes/Blushes.webp"
                                     class="card-img-top"
                                     alt="Product 1 Image"
                                 />
@@ -309,7 +313,7 @@
                                     <i class="fa-solid fa-cart-shopping cart-icon"></i>
                                                             
                                     <img
-                                        src="Imagenes/Rimeles.webp"
+                                        src="../Imagenes/Blushes.webp"
                                         class="card-img-top"
                                         alt="Product 1 Image"
                                     />
@@ -329,7 +333,7 @@
                                     <i class="fa-solid fa-cart-shopping cart-icon"></i>
                                                             
                                     <img
-                                        src="Imagenes/Rimeles.webp"
+                                        src="../Imagenes/Blushes.webp"
                                         class="card-img-top"
                                         alt="Product 1 Image"
                                     />
@@ -349,7 +353,7 @@
                                     <i class="fa-solid fa-cart-shopping cart-icon"></i>
                                                             
                                     <img
-                                        src="Imagenes/Rimeles.webp"
+                                        src="../Imagenes/Blushes.webp"
                                         class="card-img-top"
                                         alt="Product 1 Image"
                                     />
@@ -366,6 +370,24 @@
             </div>
             
         </main>
+         <!-- Modal: Cerrar Sesión -->
+    <div class="modal fade" id="logoutModal" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cerrar Sesión</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que deseas cerrar sesión?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <a href="Login.html" class="btn btn-danger">Aceptar</a>
+                </div>
+            </div>
+        </div>
+    </div>
         <footer>
             <!-- place footer here -->
         </footer>

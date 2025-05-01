@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Panel de Administrador</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <style>
+            body{
+                background-color: #F5EEF0;
+            }
+            .personalized-widget {
+                height: 300px; 
+                align-items: center;
+            }
+            .personalized-widget2 {
+                background-color: #6D2D2F;
+                color: white;
+                height: 300px;
+            }
+            .cardTitle-style {
+                font-size: 70px; 
+                font-family: 'Euphoria Script', cursive;
+                text-align: center;
+            }
+            .cardBody-style {
+                font-size: 20px;
+                font-family: 'Crimson Text', serif;
+                text-align: center;
+            }
+            .card-img-top {
+                max-height: 130px;
+                width: 100%;
+                object-fit: contain;
+            }
+            .card {
+                border-radius: 10px;
+                border: none;
+            }
+            .card:hover{
+                box-shadow: 0 3px 6px rgb(249, 229, 229), 0 3px 6px rgb(239, 213, 213);
+                transform: translate(0px, -8px);
+            }
+            .cardW {
+                max-width: 280px;
+                max-height: 350px;
+                margin: 0 auto;
+                position: relative;
+            }  
+            .cart-icon {
+                right: 10px;
+                background-color: black;
+                color: white;
+                border-radius: 50%;
+                padding: 5px;
+                cursor: pointer;
+            }
+            .admin-action-icons {
+                position: absolute;
+                top: 0;
+                right: 0;
+                padding: 10px;
+                display: flex;
+                gap: 5px;
+            }
+
+        </style>
+        <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Euphoria+Script&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/4bb0cb35f0.js" crossorigin="anonymous"></script>
+        
+
+    </head>
+
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-md navbar-light bg-light"> 
+                <div class="container">
+                    <a class="navbar-brand" style="font-family: 'Euphoria Script', cursive;" href="./Home.html">Rosée</a>
+                    <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapsibleNavId"
+                        aria-controls="collapsibleNavId"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="collapsibleNavId">
+                        <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="./Home.html" aria-current="page"
+                                    >Home
+                                    <span class="visually-hidden">(current)</span></a
+                                >
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="./Home.html">Favoritos</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a
+                                    class="nav-link dropdown-toggle"
+                                    href="#"
+                                    id="dropdownId"
+                                    data-bs-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    >Productos</a
+                                >
+                                <div
+                                    class="dropdown-menu"
+                                    aria-labelledby="dropdownId"
+                                >
+                                    <a class="dropdown-item" href="./Primer.html"
+                                        >Primer</a
+                                    >
+                                    <a class="dropdown-item" href="./Blush.html"
+                                        >Blush</a
+                                    >
+                                    <a class="dropdown-item" href="./Rimel.html"
+                                        >Rimel</a
+                                    >
+                                    <a class="dropdown-item" href="./Labial.html"
+                                        >Labial</a
+                                    >
+                                </div>
+                            </li>
+                        </ul>
+                        <form class="d-flex my-2 my-lg-0">
+                            <input
+                                class="form-control me-sm-2"
+                                type="text"
+                                placeholder="Buscar" style="border-radius: 15px;"
+                            />
+                            <button
+                                class="btn btn-outline-success my-2 my-sm-0"
+                                type="submit" style="margin: 10px; border-radius: 15px; border-color: black; color: black"
+                            >
+                                Buscar
+                            </button>
+                        </form>
+                        <div class="d-flex align-items-center ms-2"> 
+                            <a href="./Carrito.html" class="nav-link"><i class="fa-solid fa-cart-shopping" style="background-color: black; color: white; padding: 4px;"></i></a>
+                            <i class="fa-solid fa-gear nav-link" style="padding: 5px;" data-bs-toggle="modal" data-bs-target="#editUserModal"></i>
+                            <a class="nav-link" href="Login.html" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                                <i class="fas fa-sign-out-alt" style="cursor:pointer" title="Cerrar Sesión"></i> 
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- Modal Body -->
+            <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+            <div
+                class="modal fade"
+                id="editUserModal"
+                tabindex="-1"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                
+                role="dialog"
+                aria-labelledby="modalTitleId"
+                aria-hidden="true"
+            >
+                <div
+                    class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+                    role="document"
+                >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">
+                                Editar Usuario
+                            </h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" name="nombre" id="nombre"
+                                    placeholder="Nombre" required=true />
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Correo</label>
+                                <input type="email" class="form-control" name="correo" id="correo"
+                                    placeholder="correo@gmail.com" required=true />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Cancelar
+                            </button>
+                            <button type="button" class="btn btn-primary" style=" background-color: #6D2D2F;">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Optional: Place to the bottom of scripts -->
+            <script>
+                const myModal = new bootstrap.Modal(
+                    document.getElementById("editUserModal"),
+                    options,
+                );
+            </script>
+            
+        </header>
+        <main>
+            <!-- PANEL ADMINISTRADOR -->
+            <div class="container mt-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4><b>Gestión de Productos</b></h4>
+                <button class="btn btn-dark rounded-pill" data-bs-toggle="modal" data-bs-target="#addProductModal" style=" background-color: #6D2D2F;">+ Añadir Producto</button>
+                </div>
+                <div class="row g-3">
+                <!-- Producto ejemplo -->
+                <div class="col-md-4">
+                    <div class="card cardW position-relative">
+                        <div class="admin-action-icons">
+                        <i class="fa-solid fa-pen-to-square mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar"></i>
+                        <i class="fa-solid fa-trash mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" title="Eliminar"></i>
+                    </div>
+                    <img src="../Imagenes/Blush.jpeg" class="card-img-top" alt="Producto 1" />
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Producto</h5>
+                        <p class="card-text">Descripción del producto</p>
+                        <p class="card-text"><b>$10.99</b></p>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card cardW position-relative">
+                        <div class="admin-action-icons">
+                        <i class="fa-solid fa-pen-to-square mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar"></i>
+                        <i class="fa-solid fa-trash mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" title="Eliminar"></i>
+                    </div>
+                    <img src="../Imagenes/ElfConcealer.jpg" class="card-img-top" alt="Producto 1" />
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Producto</h5>
+                        <p class="card-text">Descripción del producto</p>
+                        <p class="card-text"><b>$10.99</b></p>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card cardW position-relative">
+                        <div class="admin-action-icons">
+                        <i class="fa-solid fa-pen-to-square mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar"></i>
+                        <i class="fa-solid fa-trash mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" title="Eliminar"></i>
+                    </div>
+                    <img src="../Imagenes/Labiales.png" class="card-img-top" alt="Producto 1" />
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Producto</h5>
+                        <p class="card-text">Descripción del producto</p>
+                        <p class="card-text"><b>$10.99</b></p>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card cardW position-relative">
+                        <div class="admin-action-icons">
+                        <i class="fa-solid fa-pen-to-square mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar"></i>
+                        <i class="fa-solid fa-trash mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" title="Eliminar"></i>
+                    </div>
+                    <img src="../Imagenes/Elf.jpeg" class="card-img-top" alt="Producto 1" />
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Producto</h5>
+                        <p class="card-text">Descripción del producto</p>
+                        <p class="card-text"><b>$10.99</b></p>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card cardW position-relative">
+                        <div class="admin-action-icons">
+                        <i class="fa-solid fa-pen-to-square mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar"></i>
+                        <i class="fa-solid fa-trash mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" title="Eliminar"></i>
+                    </div>
+                    <img src="../Imagenes/Rimeles.webp" class="card-img-top" alt="Producto 1" />
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Producto</h5>
+                        <p class="card-text">Descripción del producto</p>
+                        <p class="card-text"><b>$10.99</b></p>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card cardW position-relative">
+                        <div class="admin-action-icons">
+                        <i class="fa-solid fa-pen-to-square mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar"></i>
+                        <i class="fa-solid fa-trash mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" title="Eliminar"></i>
+                    </div>
+                    <img src="../Imagenes/Blushes.webp" class="card-img-top" alt="Producto 1" />
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Producto</h5>
+                        <p class="card-text">Descripción del producto</p>
+                        <p class="card-text"><b>$10.99</b></p>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </main>
+        <!-- MODAL: Añadir Producto -->
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Añadir Producto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control" placeholder="Ej. Labial Rosado" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Precio</label>
+                <input type="number" class="form-control" placeholder="Ej. 19.99" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Etiqueta</label>
+                <select class="form-select">
+                  <option selected disabled>Selecciona...</option>
+                  <option>Blush</option>
+                  <option>Rimel</option>
+                  <option>Primer</option>
+                  <option>Labial</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Descuento (%)</label>
+                <input type="number" class="form-control" placeholder="Ej. 10" />
+              </div>
+              <div class="col-12">
+                <label class="form-label">URL de Imagen</label>
+                <input type="text" class="form-control" placeholder="https://..." />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-dark" style=" background-color: #6D2D2F;">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MODAL: Editar Producto -->
+  <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar Producto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control" value="Labial Rosado" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Precio</label>
+                <input type="number" class="form-control" value="19.99" />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Etiqueta</label>
+                <select class="form-select">
+                  <option>Blush</option>
+                  <option>Rimel</option>
+                  <option>Primer</option>
+                  <option selected>Labial</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Descuento (%)</label>
+                <input type="number" class="form-control" value="10" />
+              </div>
+              <div class="col-12">
+                <label class="form-label">URL de Imagen</label>
+                <input type="text" class="form-control" value="Imagenes/Labial.png" />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-dark" style=" background-color: #6D2D2F;">Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MODAL: Confirmar Eliminación -->
+  <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Eliminar Producto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    <!-- Modal: Cerrar Sesión -->
+    <div class="modal fade" id="logoutModal" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cerrar Sesión</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que deseas cerrar sesión?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <a href="Login.html" class="btn btn-danger">Aceptar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+        <footer>
+            <!-- place footer here -->
+        </footer>
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+        <script>
+            localStorage.setItem("rol", "admin"); // simula que el usuario es admin
+
+            document.addEventListener("DOMContentLoaded", () => {
+              const rol = localStorage.getItem("rol");
+          
+              if (rol === "admin") {
+                const nav = document.querySelector(".navbar-nav");
+          
+                const li = document.createElement("li");
+                li.classList.add("nav-item");
+          
+                const a = document.createElement("a");
+                a.classList.add("nav-link");
+                a.href = "Admin.html";
+                a.textContent = "Gestión de Productos";
+          
+                li.appendChild(a);
+                nav.appendChild(li);
+              }
+            });
+          </script>
+          
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>
