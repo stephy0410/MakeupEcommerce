@@ -1,6 +1,10 @@
-const Producto = require('../../MODELS/producto'); 
+const express = require('express');
+const router = express.Router();
 
-exports.getNuevosProductos = async (req, res) => {
+//Modelo
+const Producto = require("../MODELS/producto");
+
+router.get("/producto/nuevo", async(req, res) => {
     try {
         const nuevosProductos = await Producto.find()
             .sort({ fecha: -1 }) // Sort por fecha descendiente
@@ -12,4 +16,8 @@ exports.getNuevosProductos = async (req, res) => {
         console.error(error);
         res.status(400).json({message: 'Error obteniendo los nuevos produtos'});
     }
-};
+});
+
+
+
+module.exports = router;

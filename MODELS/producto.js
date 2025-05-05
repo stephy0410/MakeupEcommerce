@@ -19,10 +19,6 @@ let productoSchema = mongoose.Schema({
         enum: ['Blush', 'Labial', 'Primer', 'Rimel'],
         required: true
     },
-    favorito: {
-        type: Boolean,
-        default: false
-    },
     imagen: {
         type: String,
         required: true

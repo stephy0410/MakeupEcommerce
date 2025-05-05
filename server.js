@@ -14,7 +14,11 @@ app.use(express.static(path.join(__dirname, 'FRONTEND/Views')));
 app.use('/js', express.static(path.join(__dirname, 'FRONTEND/js')));
 
 //Rutas
-app.use(require("./ROUTES/maquillaje"));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'FRONTEND/Views/Home.html'));
+});
+app.use(require("./ROUTES/producto"));
+app.use(require("./ROUTES/usuario"));
 
 //Base de datos
 let mongoConnection = "mongodb+srv://yanaelinagarcia:Sesamo00@cluster0.ukb7l2l.mongodb.net/MakeupECommerce"
@@ -32,3 +36,4 @@ mongoose.connect(mongoConnection);
 app.listen(port, () => {
     console.log(`MakeupECommerce corriendo en puerto ${port}`);
 });
+
