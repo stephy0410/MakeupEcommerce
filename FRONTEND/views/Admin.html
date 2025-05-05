@@ -112,6 +112,7 @@
         </nav>
     </header>
 
+    <!-- Main content -->
     <main>
         <!-- PANEL ADMINISTRADOR -->
         <div class="container mt-5">
@@ -208,7 +209,6 @@
             </div>
         </div>
     </main>
-
     <!-- MODAL: Añadir Producto -->
     <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -342,6 +342,47 @@
         </div>
     </div>
 
+             <!-- Modal: Editar Usuario -->
+    <div class="modal fade"  id="editUserModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="editName" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="editName" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editEmail" class="form-label">Correo</label>
+                            <input type="text" class="form-control" id="editEmail" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPassword" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="editPassword" name="password" required>
+                        </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-danger me-auto" onclick="confirmDelete()" id="deleteBtn">Eliminar</button>
+                        <button type="button" class="btn btn-primary" onclick="updateUser()" id="saveBtn">Guardar Cambios</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+            <!-- Optional: Place to the bottom of scripts -->
+            <script>
+                const myModal = new bootstrap.Modal(
+                    document.getElementById("editUserModal"),
+                    options,
+                );
+            </script>
+            
+
+    <!-- Footer -->
     <footer>
         <!-- place footer here -->
     </footer>
@@ -349,13 +390,6 @@
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-    <script src="../controllers/admin_controller.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!AuthController.isAdmin()) {
-                window.location.href = 'Login.html';
-            }
-        });
-    </script>
+    <script src="../controllers/auth_controller.js"></script>
 </body>
 </html>

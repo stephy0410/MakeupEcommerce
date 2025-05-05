@@ -75,7 +75,6 @@ window.toggleForms = function() {
     const formRegister = document.getElementById('formRegister');
     const title = document.getElementById('currentFormTitle');
     
-    // Verificar estado usando classList
     if (formRegister.classList.contains('d-none')) {
         formLogin.classList.add('d-none');
         formRegister.classList.remove('d-none');
@@ -140,4 +139,39 @@ document.addEventListener('DOMContentLoaded', function() {
             toggleForms();
         });
     });
+
+    // Role-based access control
+    if (!AuthController.isAuthenticated()) {
+        // Redirect unauthenticated users to the login page
+        window.location.href = 'Login.html';
+    } else {
+        // Add 'Gestión de Productos' link for admin users
+        if (AuthController.isAdmin()) {
+            const nav = document.querySelector(".navbar-nav");
+            if (nav) {
+                const li = document.createElement("li");
+                li.classList.add("nav-item");
+
+                const a = document.createElement("a");
+                a.classList.add("nav-link");
+                a.href = "Admin.html";
+                a.textContent = "Gestión de Productos";
+
+                li.appendChild(a);
+                nav.appendChild(li);
+            }
+        } else {
+            // Remove the 'Gestión de Productos' link for non-admin users
+            const gestionLink = document.querySelector('a[href="Admin.html"]');
+            if (gestionLink) gestionLink.remove();
+        }
+    }
+
+    // Handle logout button click
+    const logoutButton = document.querySelector('.logout-btn');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function() {
+            AuthController.logout();
+        });
+    }
 });
