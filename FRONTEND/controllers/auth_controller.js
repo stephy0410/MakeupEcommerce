@@ -17,6 +17,11 @@ const AuthController = {
             // Almacena en ambos storages por compatibilidad
             sessionStorage.setItem('user', JSON.stringify(data.user));
             localStorage.setItem('user', JSON.stringify(data.user));
+            localStorage.setItem('authToken', data.sessionId);
+            
+            // Redirige con el token en la URL
+            const redirectTo = data.user.role === 'admin' ? 'Admin.html' : 'Home.html';
+            window.location.href = `${redirectTo}?auth=${data.user.id}`;
             return data.user;
         })
         .catch(function(error) {
@@ -67,8 +72,36 @@ const AuthController = {
         sessionStorage.removeItem('user');
         localStorage.removeItem('user');
         window.location.href = 'Login.html';
+    },
+    redirectWithAuth: function(path) {
+        const user = this.getCurrentUser();
+        if (!user) {
+            window.location.href = 'Login.html';
+            return;
+        }
+        window.location.href = `${path}?auth=${user.id}`;
+    },
+
+    handleNavigation: function() {
+        const currentPage = window.location.pathname.split('/').pop();
+        const user = this.getCurrentUser();
+        
+        if (['Home.html', 'Admin.html'].includes(currentPage)) {
+            if (!user) {
+                window.location.href = 'Login.html';
+                return;
+            }
+
+            // Verificar si la URL ya tiene el token
+            const urlParams = new URLSearchParams(window.location.search);
+            if (!urlParams.has('auth')) {
+                window.location.href = `${currentPage}?auth=${user.id}`;
+            }
+        }
     }
 };
+
+
 
 // Función global para alternar formularios
 window.toggleForms = function() {
@@ -87,8 +120,9 @@ window.toggleForms = function() {
     }
 };
 
-// Inicialización mejorada
+// Inicialización 
 document.addEventListener('DOMContentLoaded', function() {
+    AuthController.handleNavigation();
     // Manejo de formularios
     const loginForm = document.getElementById('formLogin');
     if (loginForm) {
@@ -165,12 +199,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!existingLink) {
                     const li = document.createElement("li");
                     li.classList.add("nav-item");
-
+        
                     const a = document.createElement("a");
                     a.classList.add("nav-link");
-                    a.href = "Admin.html";
+                    a.href = "#";
                     a.textContent = "Gestión de Productos";
-
+                    a.onclick = function(e) {
+                        e.preventDefault();
+                        AuthController.redirectWithAuth('Admin.html');
+                    };
+        
                     li.appendChild(a);
                     nav.appendChild(li);
                 }
