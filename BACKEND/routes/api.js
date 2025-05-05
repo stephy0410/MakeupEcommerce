@@ -1,9 +1,13 @@
+
 const express = require('express');
 const router = express.Router();
-const usersRouter = require('./users');
-const adminRouter = require('./admin');
+const adminController = require('../controllers/admin_api_controller');
 
-router.use('/users', usersRouter);
-router.use('/admin', adminRouter);
+// Listar productos
+router.get('/products', adminController.getAllProducts);
+router.post('/products', adminController.createProduct);
+router.get('/products/:id', adminController.authProductMiddleware, adminController.getProductById);
+router.patch('/products/:id', adminController.authProductMiddleware, adminController.updateProduct);
+router.delete('/products/:id', adminController.authProductMiddleware, adminController.deleteProduct);
 
 module.exports = router;

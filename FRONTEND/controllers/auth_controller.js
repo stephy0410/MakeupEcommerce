@@ -14,7 +14,8 @@ const AuthController = {
             return response.json();
         })
         .then(function(data) {
-            localStorage.setItem('sessionId', data.sessionId);
+            // Almacena en ambos storages por compatibilidad
+            sessionStorage.setItem('user', JSON.stringify(data.user));
             localStorage.setItem('user', JSON.stringify(data.user));
             return data.user;
         })
@@ -32,7 +33,7 @@ const AuthController = {
         return fetch('/api/users/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, email, password })
+            body: JSON.stringify({ username, email, password, confirmPassword })
         })
         .then(function(response) {
             if (!response.ok) {
@@ -49,7 +50,7 @@ const AuthController = {
     },
 
     isAuthenticated: function() {
-        return !!localStorage.getItem('sessionId');
+        return !!this.getCurrentUser();
     },
 
     isAdmin: function() {
@@ -58,12 +59,12 @@ const AuthController = {
     },
 
     getCurrentUser: function() {
-        const user = localStorage.getItem('user');
+        const user = sessionStorage.getItem('user') || localStorage.getItem('user');
         return user ? JSON.parse(user) : null;
     },
 
     logout: function() {
-        localStorage.removeItem('sessionId');
+        sessionStorage.removeItem('user');
         localStorage.removeItem('user');
         window.location.href = 'Login.html';
     }
@@ -86,9 +87,9 @@ window.toggleForms = function() {
     }
 };
 
-// Inicialización
+// Inicialización mejorada
 document.addEventListener('DOMContentLoaded', function() {
-    // Formulario de Login
+    // Manejo de formularios
     const loginForm = document.getElementById('formLogin');
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
@@ -98,7 +99,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             AuthController.login(username, password)
                 .then(function(user) {
-                    window.location.href = user.role === 'admin' ? 'Admin.html' : 'Home.html';
+                    const redirectTo = user.role === 'admin' ? 'Admin.html' : 'Home.html';
+                    console.log(`Redirigiendo a: ${redirectTo}`);
+                    window.location.href = `${redirectTo}?auth=${user.id}`;
+
                 })
                 .catch(function(error) {
                     alert(error.message);
@@ -106,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Formulario de Registro
     const registerForm = document.getElementById('formRegister');
     if (registerForm) {
         registerForm.addEventListener('submit', function(e) {
@@ -116,11 +119,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const password = document.getElementById('registerPassword').value;
             const confirmPassword = document.getElementById('registerConfirmPassword').value;
             
-            if (password !== confirmPassword) {
-                alert('Las contraseñas no coinciden');
-                return;
-            }
-
             AuthController.register(username, email, password, confirmPassword)
                 .then(function() {
                     alert('Registro exitoso! Por favor inicia sesión.');
@@ -133,45 +131,58 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Configurar botones de toggle
-    document.querySelectorAll('.btn-toggle-form, .btn-outline-secondary').forEach(function(button) {
+    document.querySelectorAll('.btn-toggle-form').forEach(function(button) {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             toggleForms();
         });
     });
 
-    // Role-based access control
-    if (!AuthController.isAuthenticated()) {
-        // Redirect unauthenticated users to the login page
-        window.location.href = 'Login.html';
-    } else {
-        // Add 'Gestión de Productos' link for admin users
-        if (AuthController.isAdmin()) {
+    // Control de acceso basado en roles (RBAC)
+    const currentPage = window.location.pathname.split('/').pop();
+    
+    // Solo aplicar redirecciones si no estamos en login/register
+    if (!['Login.html', 'Register.html'].includes(currentPage)) {
+        if (!AuthController.isAuthenticated()) {
+            console.log('Usuario no autenticado, redirigiendo a login');
+            window.location.href = 'Login.html';
+            return;
+        }
+
+        // Verificación especial para página de admin
+        if (currentPage === 'Admin.html' && !AuthController.isAdmin()) {
+            console.log('Acceso no autorizado a Admin.html');
+            alert('No tienes permisos de administrador');
+            window.location.href = 'Home.html';
+            return;
+        }
+
+        // Agregar elemento de menú para admin
+        if (AuthController.isAdmin() && currentPage !== 'Admin.html') {
             const nav = document.querySelector(".navbar-nav");
             if (nav) {
-                const li = document.createElement("li");
-                li.classList.add("nav-item");
+                const existingLink = document.querySelector('a[href="Admin.html"]');
+                if (!existingLink) {
+                    const li = document.createElement("li");
+                    li.classList.add("nav-item");
 
-                const a = document.createElement("a");
-                a.classList.add("nav-link");
-                a.href = "Admin.html";
-                a.textContent = "Gestión de Productos";
+                    const a = document.createElement("a");
+                    a.classList.add("nav-link");
+                    a.href = "Admin.html";
+                    a.textContent = "Gestión de Productos";
 
-                li.appendChild(a);
-                nav.appendChild(li);
+                    li.appendChild(a);
+                    nav.appendChild(li);
+                }
             }
-        } else {
-            // Remove the 'Gestión de Productos' link for non-admin users
-            const gestionLink = document.querySelector('a[href="Admin.html"]');
-            if (gestionLink) gestionLink.remove();
         }
     }
 
-    // Handle logout button click
-    const logoutButton = document.querySelector('.logout-btn');
-    if (logoutButton) {
-        logoutButton.addEventListener('click', function() {
+    // Botón de logout
+    document.querySelectorAll('.logout-btn').forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
             AuthController.logout();
         });
-    }
+    });
 });
