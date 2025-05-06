@@ -1,21 +1,24 @@
 // controllers/user_profile_controller.js
-// Verificación de autenticación al cargar la página
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const user = AuthController.getCurrentUser();
-    if (!user) {
+    const currentPage = window.location.pathname.split('/').pop();
+
+    // Solo proteger Admin.html
+    if (currentPage === 'Admin.html' && !user) {
         window.location.href = 'Login.html';
         return;
     }
 
-    // Si estamos en una página protegida, asegurar el token en la URL
-    const currentPage = window.location.pathname.split('/').pop();
-    if (['Profile.html', 'Home.html', 'Admin.html'].includes(currentPage)) {
+    // Si hay sesión iniciada y falta el auth param, agrégalo en Admin.html
+    if (user && currentPage === 'Admin.html') {
         const urlParams = new URLSearchParams(window.location.search);
         if (!urlParams.has('auth')) {
             window.location.href = `${currentPage}?auth=${user.id}`;
         }
     }
 });
+
+
 
 
 window.updateUser = function () {

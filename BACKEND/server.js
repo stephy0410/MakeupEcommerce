@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Middleware para servir archivos estáticos
 app.use(express.static(path.join(__dirname, '../FRONTEND')));
 // Middleware para proteger rutas HTML si no hay sesión
-const pathRequiresAuth = ['/Home.html', '/Admin.html'];
+const pathRequiresAuth = ['/Admin.html'];
 
 app.use((req, res, next) => {
     if (pathRequiresAuth.includes(req.path)) {
