@@ -158,6 +158,21 @@ const AuthController = {
         });
     }
 };
+function toggleForms() {
+    let form_login = document.getElementById('formLogin');
+    let form_register = document.getElementById('formRegister');
+    let title = document.getElementById('currentFormTitle');
+    
+    if (form_register.style.display === 'none') {
+        form_login.style.display = 'none';
+        form_register.style.display = 'block';
+        title.textContent = 'CREAR CUENTA';
+    } else {
+        form_login.style.display = 'block';
+        form_register.style.display = 'none';
+        title.textContent = 'INICIAR SESIÓN';
+    }
+}
 
 // Ejecutar al cargar la página
 document.addEventListener('DOMContentLoaded', function () {
@@ -180,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         });
     }
-
+ 
     const registerForm = document.getElementById('formRegister');
     if (registerForm) {
         registerForm.addEventListener('submit', function(e) {
@@ -200,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         });
     }
-
+    
     document.querySelectorAll('.btn-toggle-form').forEach(function(button) {
         button.addEventListener('click', function(e) {
             e.preventDefault();
