@@ -23,13 +23,17 @@ exports.createProduct = async function (req, res) {
 
 // READ - GET /products
 exports.getAllProducts = async function (req, res) {
-    try {
-      const products = await Product.find().sort({ createdAt: -1 });
+  try {
+      let query = {};
+      if (req.query.search) {
+          query.name = { $regex: req.query.search, $options: 'i' };
+      }
+      const products = await Product.find(query).sort({ createdAt: -1 });
       res.status(200).json({ data: products });
-    } catch (err) {
+  } catch (err) {
       res.status(500).json({ error: 'Error al obtener los productos' });
-    }
-  };
+  }
+};
 
 // Middleware para validar producto
 exports.authProductMiddleware = async function (req, res, next) {
