@@ -116,13 +116,30 @@ exports.updateCurrentUser = async function (req, res) {
         if (email) updatedData.email = email;
         if (password) updatedData.password = password;
 
-        const updatedUser = await User.findByIdAndUpdate(userId, updatedData, { new: true }).select('-password');
-        res.json(updatedUser);
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            updatedData,
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        // Solo devolvemos los datos visibles, NO role si no lo necesitas
+        res.json({
+            id: updatedUser._id,
+            username: updatedUser.username,
+            email: updatedUser.email,
+            role: updatedUser.role  // Puedes quitar esto si no lo usas en frontend
+        });
+
     } catch (error) {
         console.error('Error al actualizar usuario:', error);
         res.status(500).json({ message: 'Error al actualizar el usuario' });
     }
 };
+
 exports.deleteCurrentUser = async function (req, res) {
     try {
         const userId = req.headers['authorization'];
