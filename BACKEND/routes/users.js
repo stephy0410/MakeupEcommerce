@@ -31,4 +31,7 @@ router.put('/:id/role', usersController.requireAuth, usersController.requireAdmi
 router.patch('/me', usersController.updateCurrentUser);  // Editar usuario actual
 router.delete('/me', usersController.deleteCurrentUser); // Eliminar usuario actual
 
+router.post('/users/:userID/favs/:productID', usersController.favorites); //yo
+router.post('/users/:userID/carrito/:productID', usersController.cart); //yo
+
 module.exports = router;

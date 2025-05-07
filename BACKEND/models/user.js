@@ -27,6 +27,18 @@ const userSchema = new mongoose.Schema({
     favoritos:{
         type:[String],
         default: []
+    }, 
+    carrito: {
+        type: [{
+            producto: {
+                type: String,
+            },
+            cantidad: {
+                type: Number,
+                default: 1
+            }
+        }],
+        default: []
     }
 });
 

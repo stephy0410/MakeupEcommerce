@@ -1,0 +1,321 @@
+const url = 'http://localhost:3000';
+
+async function loadNewProducts(){
+    const carousel = document.getElementById('carouselLoMasNuevo');
+    const indicatorsContainer = document.getElementById('indicatorC1');
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user);
+
+    const userID = user?.id;
+    const favorites = user?.favoritos || [];
+    const carrito = user?.carrito || [];
+    console.log("Productos fav", favorites);
+    
+    try{
+        const response =  await fetch(url + '/api/products/news');
+        const productos = await response.json();
+
+        carousel.innerHTML = "";
+
+        if (productos.length === 0) {
+            carousel.innerHTML =`<div class="carousel-item active">
+            <div class="text-center p-4">
+                <p style="color: white">No hay productos nuevos</p>
+            </div>
+        </div>`
+            return;
+        }
+
+        const productosSlide = 3;
+        const totalSlides = Math.ceil(productos.length / productosSlide);
+
+        indicatorsContainer.innerHTML = '';
+
+        // Generar indicadores
+        for (let i = 0; i < totalSlides; i++) {
+            const indicator = document.createElement('li');
+            indicator.setAttribute('data-bs-target', '#carouselId');
+            indicator.setAttribute('data-bs-slide-to', i);
+            indicator.setAttribute('aria-label', `Slide ${i + 1}`);
+            
+            if (i === 0) {
+                indicator.classList.add('active');
+                indicator.setAttribute('aria-current', 'true');
+            }
+            
+            indicatorsContainer.appendChild(indicator);
+        }
+
+        for(let i = 0; i < productos.length; i += productosSlide){
+            //Slide
+            const slideDiv = document.createElement('div');
+            slideDiv.className = 'carousel-item' + (i === 0 ? ' active' : '');
+
+            //Fila
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'row g-3';
+
+            // Agregar productos a fila
+            for(let j = i; j < i + productosSlide && j < productos.length; j++){
+                const prod = productos[j];
+
+                //Columna
+                const colDiv = document.createElement('div');
+                colDiv.className = 'col-md-4';
+
+                //Tarjeta
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card cardW';
+                
+                //Iconos
+                const isFav = favorites.includes(prod._id);
+                const heartClass = isFav ? 'fa-solid' : 'fa-regular';
+
+                const isInCart = carrito.some(item => item.producto === prod._id);
+                const cartClass = isInCart ? 'in-cart' : '';
+
+                cardDiv.innerHTML += `<i class="fa-heart heart-icon ${heartClass}"></i>
+                                    <i class="fa-solid fa-cart-shopping cart-icon  ${cartClass}"></i>`;
+                
+                //Imagen
+                cardDiv.innerHTML += `<img
+                                        src="${prod.image}"
+                                        class="card-img-top"
+                                        alt="Product 1 Image"
+                                    />`;
+                //Producto
+                cardDiv.innerHTML += `<div class="card-body d-flex flex-column">
+                                        <h5 class="card-title">${prod.name}</h5>
+                                        <p class="card-text">${prod.description}</p>
+                                        <p class="card-text"><b>${prod.price}</b></p>
+                                    </div>`;
+                if(user){
+                    cardDiv.querySelector('.heart-icon').addEventListener('click', async (e) => {
+                        const icon = e.target;
+                        const r = await fetch(`${url}/api/users/${userID}/favs/${prod._id}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' }
+                        });
+                        const newFavs = await r.json();
+                        user.favoritos = newFavs;
+                        localStorage.setItem('user', JSON.stringify(user));
+    
+                        await loadFavoriteProducts();
+                    // Alternar clase visual
+                    icon.classList.toggle('fa-regular');
+                    icon.classList.toggle('fa-solid');
+                    });
+    
+                    const cartIcon = cardDiv.querySelector('.cart-icon');
+                    cartIcon.addEventListener('click', async () => {    
+                        try {
+                            const r = await fetch(`${url}/api/users/${userID}/carrito/${prod._id}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' }
+                        });
+    
+                        const updatedCart = await r.json();
+                        user.carrito = updatedCart;
+                        localStorage.setItem('user', JSON.stringify(user));
+                    
+                        updateCartIconInViews(prod._id);
+                        await loadNewProducts();
+                        await loadFavoriteProducts(); 
+    
+                        } catch (error) {
+                            console.error('Error al agregar al carrito', error);
+                        }
+                    });
+                }
+                                    
+                colDiv.appendChild(cardDiv);
+                rowDiv.appendChild(colDiv);
+            }
+            slideDiv.appendChild(rowDiv);
+            carousel.appendChild(slideDiv);
+        }
+        new bootstrap.Carousel(document.getElementById('carouselId'));
+
+    }catch(error){
+        console.error('Error al cargar Productos Nuevos', error);
+    }
+};
+
+
+
+async function loadFavoriteProducts(){
+    const carousel = document.getElementById('carouselFavoritos');
+    const indicatorsContainer = document.getElementById('indicatorC2');
+    const user = JSON.parse(localStorage.getItem('user'));
+    const section = document.getElementById('favoritesSection'); 
+
+    if (!user) {
+        if (section) section.style.display = 'none';
+        return;
+    }
+
+    const userID = user.id;
+    const favorites = user.favoritos || [];
+    const carrito = user.carrito || [];
+
+    try{
+        const response =  await fetch(url + '/api/products/favorites', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ids: favorites})
+        });
+        const productos = await response.json();
+
+        carousel.innerHTML = "";
+
+        if (productos.length === 0) {
+            carousel.innerHTML =`<div class="carousel-item active">
+            <div class="text-center p-4">
+                <p style="color: white">No hay productos favoritos</p>
+            </div>
+        </div>`
+            return;
+        }
+
+        const productosSlide = 3;
+        const totalSlides = Math.ceil(productos.length / productosSlide);
+        
+        indicatorsContainer.innerHTML = '';
+
+        // Generar indicadores
+        for (let i = 0; i < totalSlides; i++) {
+            const indicator = document.createElement('li');
+            indicator.setAttribute('data-bs-target', '#carouselId2');
+            indicator.setAttribute('data-bs-slide-to', i);
+            indicator.setAttribute('aria-label', `Slide ${i + 1}`);
+            
+            if (i === 0) {
+                indicator.classList.add('active');
+                indicator.setAttribute('aria-current', 'true');
+            }
+            
+            indicatorsContainer.appendChild(indicator);
+        }
+
+        for(let i = 0; i < productos.length; i += productosSlide){
+            //Slide
+            const slideDiv = document.createElement('div');
+            slideDiv.className = 'carousel-item' + (i === 0 ? ' active' : '');
+
+            //Fila
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'row g-3';
+
+            // Agregar productos a fila
+            for(let j = i; j < i + productosSlide && j < productos.length; j++){
+                const prod = productos[j];
+
+                //Columna
+                const colDiv = document.createElement('div');
+                colDiv.className = 'col-md-4';
+
+                //Tarjeta
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card cardW';
+                
+                //Iconos
+                const isFav = favorites.includes(prod._id);
+                const heartClass = isFav ? 'fa-solid' : 'fa-regular';
+                
+                const isInCart = carrito.some(item => item.producto === prod._id);
+                const cartClass = isInCart ? 'in-cart' : '';
+
+                cardDiv.innerHTML += `<i class="fa-heart heart-icon ${heartClass}"></i>
+                                    <i class="fa-solid fa-cart-shopping cart-icon  ${cartClass}"></i>`;
+                
+                //Imagen
+                cardDiv.innerHTML += `<img
+                                        src="${prod.image}"
+                                        class="card-img-top"
+                                        alt="${prod.name}"
+                                    />`;
+                //Producto
+                cardDiv.innerHTML += `<div class="card-body d-flex flex-column">
+                                        <h5 class="card-title">${prod.name}</h5>
+                                        <p class="card-text">${prod.description}</p>
+                                        <p class="card-text"><b>${prod.price}</b></p>
+                                    </div>`;
+                
+                if (user) {
+                    cardDiv.querySelector('.heart-icon').addEventListener('click', async () => {
+                        const r = await fetch(`${url}/api/users/${userID}/favs/${prod._id}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' }
+                        });
+                        const newFavs = await r.json();
+                        user.favoritos = newFavs;
+                        localStorage.setItem('user', JSON.stringify(user));
+
+                        await loadFavoriteProducts();
+                    });
+
+                    const cartIcon = cardDiv.querySelector('.cart-icon');
+                    cartIcon.addEventListener('click', async () => {    
+                        try {
+                            const r = await fetch(`${url}/api/users/${userID}/carrito/${prod._id}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' }
+                        });
+
+                        const updatedCart = await r.json();
+                        user.carrito = updatedCart;
+                        localStorage.setItem('user', JSON.stringify(user));
+                
+                        updateCartIconInViews(prod._id);
+                        await loadNewProducts();
+                        await loadFavoriteProducts(); 
+                    
+                        } catch (error) {
+                            console.error('Error al agregar al carrito', error);
+                        }
+                    });
+                }
+                                    
+                colDiv.appendChild(cardDiv);
+                rowDiv.appendChild(colDiv);
+            }
+            slideDiv.appendChild(rowDiv);
+            carousel.appendChild(slideDiv);
+        }
+        new bootstrap.Carousel(document.getElementById('carouselId2'));
+
+
+    }catch(error){
+        console.error('Error al cargar Productos Nuevos', error);
+    }
+};
+
+
+// Función para el color del carrito en lo mas nueo y favoritos
+async function updateCartIconInViews(prodId) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const carrito = user.carrito || [];
+
+    // Actualizar visualmente el icono del carrito en ambas vistas
+    const cartIcons = document.querySelectorAll('.cart-icon');
+    
+    cartIcons.forEach(icon => {
+        const productId = icon.closest('.card').dataset.productId;
+        if (productId === prodId) {
+            if (isInCart = carrito.some(item => item.producto === prod._id)) {
+                icon.classList.add('in-cart');
+            } else {
+                icon.classList.remove('in-cart');
+            }
+        }
+    });
+}
+
+
+// Inicialización
+window.addEventListener('DOMContentLoaded', () => {
+    loadNewProducts();
+    loadFavoriteProducts();
+});
