@@ -22,7 +22,29 @@ function verifyAdminSession() {
 
     return true;
 }
+function setupEventListeners() {
+    document.getElementById('saveProductButton')?.addEventListener('click', createProduct);
+    document.getElementById('updateProductButton')?.addEventListener('click', updateProduct);
+    document.getElementById('deleteProductButton')?.addEventListener('click', deleteProduct);
+    document.getElementById('productSearch')?.addEventListener('input', filterProducts);
+    document.getElementById('productImageFile')?.addEventListener('change', function () {
+        mostrarVistaPrevia(this, 'productImagePreview');
+    });
 
+    document.getElementById('editProductImageFile')?.addEventListener('change', function () {
+        mostrarVistaPrevia(this, 'editProductImagePreview');
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('editProductImage').value = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+let allProducts = [];
 // Cargar todos los productos
 function loadAllProducts() {
     if (!verifyAdminSession()) return;
@@ -36,12 +58,33 @@ function loadAllProducts() {
         }
     })
     .then(response => response.json())
-    .then(data => renderProducts(data.data || []))
+    .then(data => {
+        allProducts = data.data || []; 
+        renderProducts(allProducts); 
+    })
     .catch(error => {
         console.error('Error:', error);
         alert(error.message || 'Error al cargar productos');
     });
 }
+function filterProducts() {
+    const searchTerm = document.getElementById('productSearch').value;
+    const user = AuthController.getCurrentUser();
+
+    fetch(`${API_BASE_URL}?search=${encodeURIComponent(searchTerm)}`, {
+        headers: {
+            'authorization': user._id,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => renderProducts(data.data || []))
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al buscar productos');
+    });
+}
+
 
 function renderProducts(products) {
     const container = document.querySelector('.row.g-3');
@@ -50,7 +93,7 @@ function renderProducts(products) {
     container.innerHTML = '';
 
     if (!products.length) {
-        container.innerHTML = '<div class="col-12 text-center py-5"><h5>No hay productos disponibles</h5></div>';
+        container.innerHTML = '<div class="col-12 text-center py-5"><h5>No se encontraron productos</h5></div>';
         return;
     }
 
@@ -88,27 +131,6 @@ function renderProducts(products) {
     });
 }
 
-function setupEventListeners() {
-    document.getElementById('saveProductButton')?.addEventListener('click', createProduct);
-    document.getElementById('updateProductButton')?.addEventListener('click', updateProduct);
-    document.getElementById('deleteProductButton')?.addEventListener('click', deleteProduct);
-
-    document.getElementById('productImageFile')?.addEventListener('change', function () {
-        mostrarVistaPrevia(this, 'productImagePreview');
-    });
-
-    document.getElementById('editProductImageFile')?.addEventListener('change', function () {
-        mostrarVistaPrevia(this, 'editProductImagePreview');
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                document.getElementById('editProductImage').value = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-}
 
 function getBase64(file) {
     return new Promise((resolve, reject) => {

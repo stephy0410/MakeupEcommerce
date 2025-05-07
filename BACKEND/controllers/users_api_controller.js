@@ -19,8 +19,8 @@ exports.register = function(req, res) {
                 email, 
                 password,  
                 role: 'user',
-                favoritos,
-                carrito
+                favoritos: [],
+                carrito: []
             });
             
             return user.save();

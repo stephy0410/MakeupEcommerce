@@ -99,7 +99,7 @@ async function loadNewProducts(){
                         const newFavs = await r.json();
                         user.favoritos = newFavs;
                         localStorage.setItem('user', JSON.stringify(user));
-    
+                        //await loadNewProducts();
                         await loadFavoriteProducts();
                     // Alternar clase visual
                     icon.classList.toggle('fa-regular');
@@ -119,8 +119,10 @@ async function loadNewProducts(){
                         localStorage.setItem('user', JSON.stringify(user));
                     
                         updateCartIconInViews(prod._id);
-                        await loadNewProducts();
+                        //await loadNewProducts();
                         await loadFavoriteProducts(); 
+                        cartIcon.classList.toggle('in-cart');
+
     
                         } catch (error) {
                             console.error('Error al agregar al carrito', error);
@@ -252,7 +254,7 @@ async function loadFavoriteProducts(){
                         const newFavs = await r.json();
                         user.favoritos = newFavs;
                         localStorage.setItem('user', JSON.stringify(user));
-
+                        await loadNewProducts();
                         await loadFavoriteProducts();
                     });
 
@@ -298,13 +300,14 @@ async function updateCartIconInViews(prodId) {
     const user = JSON.parse(localStorage.getItem('user'));
     const carrito = user.carrito || [];
 
-    // Actualizar visualmente el icono del carrito en ambas vistas
     const cartIcons = document.querySelectorAll('.cart-icon');
-    
+
     cartIcons.forEach(icon => {
         const productId = icon.closest('.card').dataset.productId;
+
         if (productId === prodId) {
-            if (isInCart = carrito.some(item => item.producto === prod._id)) {
+            const isInCart = carrito.some(item => item.producto === prodId);
+            if (isInCart) {
                 icon.classList.add('in-cart');
             } else {
                 icon.classList.remove('in-cart');
