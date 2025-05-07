@@ -18,10 +18,11 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-
+app.use('/api', userRoutes);
 
 // Middleware para servir archivos estáticos
 app.use(express.static(path.join(__dirname, '../FRONTEND')));
+app.use(express.static(path.join(__dirname, '../FRONTEND/views')));
 // Middleware para proteger rutas HTML si no hay sesión
 const pathRequiresAuth = ['/Admin.html'];
 

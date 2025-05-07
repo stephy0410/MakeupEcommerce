@@ -18,7 +18,9 @@ exports.register = function(req, res) {
                 username, 
                 email, 
                 password,  
-                role: 'user'
+                role: 'user',
+                favoritos: [],
+                carrito: []
             });
             
             return user.save();
@@ -32,7 +34,9 @@ exports.register = function(req, res) {
                     id: user._id,
                     username: user.username,
                     email: user.email,
-                    role: user.role
+                    role: user.role,
+                    favoritos: [],
+                    carrito: []
                 },
                 sessionId 
             });
@@ -64,7 +68,9 @@ exports.login = function(req, res) {
                     id: user._id,
                     username: user.username,
                     email: user.email,
-                    role: user.role
+                    role: user.role,
+                    favoritos: user.favoritos,
+                    carrito: user.carrito
                 },
                 sessionId 
             });
@@ -151,3 +157,51 @@ exports.deleteCurrentUser = async function (req, res) {
     }
 };
 
+exports.favorites = async function (req, res){
+    const { userID, productID } = req.params;
+
+    try {
+        const user = await User.findById(userID);
+        if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+
+        const index = user.favoritos.indexOf(productID);
+        if (index > -1) {
+            // Si ya esta lo quitamos
+            user.favoritos.splice(index, 1);
+        } else {
+            // Si no esta lo agregamos
+            user.favoritos.push(productID);
+        }
+
+        await user.save();
+        res.json(user.favoritos);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al obtener productos favoritos' });
+    }
+
+}
+
+exports.cart = async function (req, res) {
+    const { userID, productID } = req.params;
+
+    try {
+        const user = await User.findById(userID);
+        if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+
+        const index = user.carrito.findIndex(item => item.producto === productID);
+        if (index > -1) {
+            // Si ya está, lo quitamos
+            user.carrito.splice(index, 1);
+        } else {
+            // Si no está, lo agregamos
+            user.carrito.push({ producto: productID, cantidad: 1 });
+        }
+
+        await user.save();
+        res.json(user.carrito);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al actualizar el carrito' });
+    }
+};
