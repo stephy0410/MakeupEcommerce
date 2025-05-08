@@ -62,6 +62,10 @@ app.get('/Home.html', (req, res) => {
     res.sendFile(path.join(__dirname, '../FRONTEND/views/Home.html'));
 });
 
+app.get('/Carrito.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '../FRONTEND/views/Carrito.html'));
+});
+
 app.get('/Admin.html', (req, res) => {
     res.sendFile(path.join(__dirname, '../FRONTEND/views/Admin.html'));
 });

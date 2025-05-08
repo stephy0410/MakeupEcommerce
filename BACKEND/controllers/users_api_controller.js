@@ -205,3 +205,29 @@ exports.cart = async function (req, res) {
         res.status(500).json({ error: 'Error al actualizar el carrito' });
     }
 };
+
+exports.updateCart = async function (req, res) {
+    // Parametros a actualizar del usuario
+    const { id } = req.params;
+    const { carrito } = req.body;
+
+    try {
+        // Encontramos el usuario mediante su id
+        const user = await User.findById(id);
+
+        if(!user) {
+            return res.status(404).json({error: "Usuario no encontrado"})
+        }
+
+        // Se guardan los datos actualizados
+        user.carrito = carrito;
+        await user.save();
+
+        res.json(user.carrito);
+    }
+
+    catch(err) {
+        console.error(err);
+        res.status(500).json({error: "Error al actualizar el carrito"});
+    }
+}
