@@ -75,8 +75,7 @@ async function loadFilteredProducts(){
                                     : `<b>$${prod.price.toFixed(2)}</b>`
                                 }
                                 </div>
-                            </div>
-                            `;
+                            </div>`;
 
             
             const heartIcon = card.querySelector('.heart-icon');

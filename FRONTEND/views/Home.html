@@ -92,6 +92,11 @@
             font-size: 0.95rem;
             margin-bottom: 8px;
             text-align: left;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Limita a 2 líneas */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .product-price {

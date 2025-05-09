@@ -101,6 +101,7 @@ async function loadNewProducts(){
                                     </div>
                                     </div>`;
 
+
                 if(user){
                     cardDiv.querySelector('.heart-icon').addEventListener('click', async (e) => {
                         const icon = e.target;
