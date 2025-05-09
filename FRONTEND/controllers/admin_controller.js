@@ -105,31 +105,39 @@ function renderProducts(products) {
         const div = document.createElement('div');
         div.className = 'col-md-4';
         div.innerHTML = `
-            <div class="card cardW position-relative">
-                <div class="admin-action-icons">
-                    <i class="fa-solid fa-pen-to-square mx-1 cart-icon" onclick="editProductPrompt('${product._id}')" title="Editar"></i>
-                    <i class="fa-solid fa-trash mx-1 cart-icon" onclick="deleteProductPrompt('${product._id}')" title="Eliminar"></i>
-                </div>
-                <img src="${product.image}" class="card-img-top" alt="${product.name}" onerror="this.src='../Imagenes/default-product.jpg'">
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title">${product.name}</h5>
-                    <p class="card-text">${product.description || ''}</p>
-                    <p class="card-text">
-                        ${product.discount > 0
-                            ? `
-                                <span class="text-decoration-line-through me-2">$${product.price.toFixed(2)}</span>
-                                <span class="text-danger"><b>$${(product.price * (1 - product.discount / 100)).toFixed(2)}</b></span>
-                                <span class="badge bg-danger ms-2">-${product.discount}%</span>
-                            `
-                            : `<b>$${product.price.toFixed(2)}</b>`}
-                    </p>
-                </div>
-            </div>
-        `;
+                        <div class="card cardW position-relative">
+                            <div class="admin-action-icons">
+                                <i class="fa-solid fa-pen-to-square cart-icon" onclick="editProductPrompt('${product._id}')" title="Editar"></i>
+                                <i class="fa-solid fa-trash cart-icon" onclick="deleteProductPrompt('${product._id}')" title="Eliminar"></i>
+                            </div>
+
+                            <img src="${product.image}" class="card-img-top" alt="${product.name}" onerror="this.src='../Imagenes/default-product.jpg'">
+                            <div class="card-body">
+                                <div>
+                                    <h5 class="card-title fw-bold">${product.name}</h5>
+                                    <p class="product-desc">${product.description || ''}</p>
+                                </div>
+                                <div>
+                                    ${product.discount > 0
+                                        ? `
+                                            <div>
+                                                <span class="text-decoration-line-through me-2">$${product.price.toFixed(2)}</span>
+                                                <span class="text-danger"><b>$${finalPrice}</b></span>
+                                            </div>
+                                            <div class="mt-2">
+                                                <span class="badge bg-danger">${'-' + product.discount + '%'}</span>
+                                            </div>
+                                        `
+                                        : `<b>$${product.price.toFixed(2)}</b>`}
+                                </div>
+                            </div>
+                        </div>
+                    `;
 
         container.appendChild(div);
     });
 }
+
 
 
 function getBase64(file) {

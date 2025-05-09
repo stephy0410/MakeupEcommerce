@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 
 const mongoConnection = "mongodb+srv://yanaelinagarcia:Sesamo00@cluster0.ukb7l2l.mongodb.net/MakeupECommerce";
+//const mongoConnection = "mongodb+srv://stephy04:Brownie5@cluster0.0ycletr.mongodb.net/MakeupEcommerceDB";
 const db = mongoose.connection;
 
 db.on('connecting', () => { 

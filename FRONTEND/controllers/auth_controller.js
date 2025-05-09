@@ -120,7 +120,7 @@ const AuthController = {
         if (authIcons) {
             authIcons.innerHTML = `
                 <a href="./Carrito.html" class="nav-link">
-                    <i class="fa-solid fa-cart-shopping" style="background-color: black; color: white; padding: 4px;"></i>
+                    <i class="fa-solid fa-cart-shopping" style= color: black; padding: 4px;"></i>
                 </a>
                 <i class="fa-solid fa-gear nav-link" style="padding: 5px;" data-bs-toggle="modal" data-bs-target="#editUserModal"></i>
                 <a class="nav-link" href="#" title="Cerrar sesión" data-bs-toggle="modal" data-bs-target="#logoutModal">

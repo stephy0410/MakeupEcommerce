@@ -13,6 +13,7 @@
         body {
             background-color: #F5EEF0;
         }
+    
         .personalized-widget {
             height: 300px; 
             align-items: center;
@@ -33,24 +34,78 @@
             text-align: center;
         }
         .card-img-top {
-            max-height: 130px;
+            height: 130px;
             width: 100%;
             object-fit: contain;
         }
         .card {
             border-radius: 10px;
             border: none;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
-        .card:hover {
+    
+        .cardW:hover {
             box-shadow: 0 3px 6px rgb(249, 229, 229), 0 3px 6px rgb(239, 213, 213);
             transform: translate(0px, -8px);
         }
         .cardW {
             max-width: 280px;
-            max-height: 350px;
+            height: 350px;
             margin: 0 auto;
             position: relative;
-        }  
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-top: 40px; /* Aquí se da el espacio para los iconos */
+        }
+
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+    
+        .product-title {
+            min-height: 38px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+            text-align: left; 
+        }
+
+        .product-desc {
+            min-height: 48px;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            text-align: left;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Limita a 2 líneas */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            min-height: 36px;
+            text-align: left;
+        }
+
+        .discount-badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 8px;
+            margin-top: 4px;
+        }
+
+    
         .cart-icon {
             right: 10px;
             background-color: black;
@@ -59,29 +114,33 @@
             padding: 5px;
             cursor: pointer;
         }
+    
         .admin-action-icons {
             position: absolute;
-            top: 0;
-            right: 0;
-            padding: 10px;
+            top: 10px;
+            right: 10px;
             display: flex;
-            gap: 5px;
+            gap: 10px; /* separa los íconos */
+            z-index: 1; /* asegúrate que estén encima */
         }
+
+        
         #productSearch {
             transition: all 0.3s ease;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-
+    
         #productSearch:focus {
             outline: none;
             box-shadow: 0 2px 8px rgba(109, 45, 47, 0.3);
             border-color: #6D2D2F;
         }
-
+    
         .input-group-text {
             cursor: pointer;
         }
     </style>
+    
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Euphoria+Script&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4bb0cb35f0.js" crossorigin="anonymous"></script>
 </head>
@@ -97,9 +156,6 @@
                     <ul class="navbar-nav me-auto mt-2 mt-lg-0">
                         <li class="nav-item">
                             <a class="nav-link" href="#" onclick="AuthController.redirectWithAuth('Home.html')">Home</a> 
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="AuthController.redirectWithAuth('Home.html')">Favoritos</a> 
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Productos</a>
@@ -139,91 +195,7 @@
             <div class="row g-3">
                 <!-- Producto ejemplo -->
                 <div class="col-md-4">
-                    <div class="card cardW position-relative">
-                        <div class="admin-action-icons">
-                            <i class="fa-solid fa-pen-to-square mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar"></i>
-                            <i class="fa-solid fa-trash mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" title="Eliminar"></i>
-                        </div>
-                        <img src="../Imagenes/Blush.jpeg" class="card-img-top" alt="Producto 1" />
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Producto</h5>
-                            <p class="card-text">Descripción del producto</p>
-                            <p class="card-text"><b>$10.99</b></p>
-                        </div>
-                    </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="card cardW position-relative">
-                        <div class="admin-action-icons">
-                            <i class="fa-solid fa-pen-to-square mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar"></i>
-                            <i class="fa-solid fa-trash mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" title="Eliminar"></i>
-                        </div>
-                        <img src="../Imagenes/ElfConcealer.jpg" class="card-img-top" alt="Producto 1" />
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Producto</h5>
-                            <p class="card-text">Descripción del producto</p>
-                            <p class="card-text"><b>$10.99</b></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card cardW position-relative">
-                        <div class="admin-action-icons">
-                            <i class="fa-solid fa-pen-to-square mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar"></i>
-                            <i class="fa-solid fa-trash mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" title="Eliminar"></i>
-                        </div>
-                        <img src="../Imagenes/Labiales.png" class="card-img-top" alt="Producto 1" />
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Producto</h5>
-                            <p class="card-text">Descripción del producto</p>
-                            <p class="card-text"><b>$10.99</b></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card cardW position-relative">
-                        <div class="admin-action-icons">
-                            <i class="fa-solid fa-pen-to-square mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar"></i>
-                            <i class="fa-solid fa-trash mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" title="Eliminar"></i>
-                        </div>
-                        <img src="../Imagenes/Elf.jpeg" class="card-img-top" alt="Producto 1" />
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Producto</h5>
-                            <p class="card-text">Descripción del producto</p>
-                            <p class="card-text"><b>$10.99</b></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card cardW position-relative">
-                        <div class="admin-action-icons">
-                            <i class="fa-solid fa-pen-to-square mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar"></i>
-                            <i class="fa-solid fa-trash mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" title="Eliminar"></i>
-                        </div>
-                        <img src="../Imagenes/Rimeles.webp" class="card-img-top" alt="Producto 1" />
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Producto</h5>
-                            <p class="card-text">Descripción del producto</p>
-                            <p class="card-text"><b>$10.99</b></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card cardW position-relative">
-                        <div class="admin-action-icons">
-                            <i class="fa-solid fa-pen-to-square mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#editProductModal" title="Editar"></i>
-                            <i class="fa-solid fa-trash mx-1 cart-icon" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" title="Eliminar"></i>
-                        </div>
-                        <img src="../Imagenes/Blushes.webp" class="card-img-top" alt="Producto 1" />
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Producto</h5>
-                            <p class="card-text">Descripción del producto</p>
-                            <p class="card-text"><b>$10.99</b></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </main>
     <!-- MODAL: Añadir Producto -->
     <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">

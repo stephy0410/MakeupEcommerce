@@ -4,12 +4,12 @@ async function loadNewProducts(){
     const carousel = document.getElementById('carouselLoMasNuevo');
     const indicatorsContainer = document.getElementById('indicatorC1');
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user);
+    
 
     const userID = user?.id;
     const favorites = user?.favoritos || [];
     const carrito = user?.carrito || [];
-    console.log("Productos fav", favorites);
+    
     
     try{
         const response =  await fetch(url + '/api/products/news');
@@ -85,10 +85,21 @@ async function loadNewProducts(){
                                         alt="Product 1 Image"
                                     />`;
                 //Producto
-                cardDiv.innerHTML += `<div class="card-body d-flex flex-column">
-                                        <h5 class="card-title">${prod.name}</h5>
-                                        <p class="card-text">${prod.description}</p>
-                                        <p class="card-text"><b>${prod.price}</b></p>
+                cardDiv.innerHTML += `<div class="card-body">
+                                    <h5 class="product-title">${prod.name}</h5>
+                                    <p class="product-desc">${prod.description}</p>
+                                    <div class="product-price">
+                                        ${
+                                        prod.discount > 0
+                                            ? `
+                                            <div>
+                                            <span class="text-decoration-line-through me-2">$${prod.price.toFixed(2)}</span>
+                                            <span class="text-danger fw-bold">$${(prod.price * (1 - prod.discount / 100)).toFixed(2)}</span>
+                                            </div>
+                                            <div><span class="discount-badge">-${prod.discount}%</span></div>`
+                                            : `<b>$${prod.price.toFixed(2)}</b>`
+                                        }
+                                    </div>
                                     </div>`;
                 if(user){
                     cardDiv.querySelector('.heart-icon').addEventListener('click', async (e) => {

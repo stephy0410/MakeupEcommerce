@@ -50,9 +50,18 @@ window.updateUser = function () {
     .then(res => res.json())
     .then(data => {
         alert('Usuario actualizado');
+
+        // Guardar el nuevo usuario con su id correcto
         sessionStorage.setItem('user', JSON.stringify(data));
         localStorage.setItem('user', JSON.stringify(data));
-        location.reload();
+
+        // Cerrar modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('editUserModal'));
+        if (modal) modal.hide();
+
+        // Refrescar el navbar con nueva info
+        AuthController.handleNavigation();
+
     })
     .catch(err => alert('Error al actualizar usuario'));
 };

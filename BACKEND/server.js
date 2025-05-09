@@ -28,27 +28,21 @@ const pathRequiresAuth = ['/Admin.html'];
 
 app.use((req, res, next) => {
     if (pathRequiresAuth.includes(req.path)) {
-        const sessionId = req.headers['authorization'] || req.query.auth;
+
+        const sessionId = req.headers['authorization'] || req.query.auth || req.headers['x-user-auth'];
 
         if (!sessionId) {
-            // Si no hay token en la solicitud, verificar si el frontend ya está autenticado
-            const userFromFrontend = req.headers['x-user-auth']; // Opcional: puedes usar cookies en lugar de headers
-            if (!userFromFrontend) {
-                // Si el frontend no está autenticado, redirigir a login
-                return res.redirect('/login.html');
-            }
-            // Si el frontend está autenticado, permitir el acceso
-            next();
-        } else {
-            // Validar el token del backend
-            const User = require('./models/user');
-            User.findById(sessionId)
-                .then(user => {
-                    if (!user) return res.redirect('/login.html');
-                    next();
-                })
-                .catch(() => res.redirect('/login.html'));
+            return res.redirect('/login.html');
         }
+
+        const User = require('./models/user');
+        User.findById(sessionId)
+            .then(user => {
+                if (!user) return res.redirect('/login.html');
+                next();
+            })
+            .catch(() => res.redirect('/login.html'));
+
     } else {
         next();
     }
@@ -66,6 +60,10 @@ app.get('/login.html', (req, res) => {
 
 app.get('/Home.html', (req, res) => {
     res.sendFile(path.join(__dirname, '../FRONTEND/views/Home.html'));
+});
+
+app.get('/Carrito.html', (req, res) => {
+    res.sendFile(path.join(__dirname, '../FRONTEND/views/Carrito.html'));
 });
 
 app.get('/Admin.html', (req, res) => {
