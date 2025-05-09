@@ -4,12 +4,12 @@ async function loadNewProducts(){
     const carousel = document.getElementById('carouselLoMasNuevo');
     const indicatorsContainer = document.getElementById('indicatorC1');
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user);
+    
 
     const userID = user?.id;
     const favorites = user?.favoritos || [];
     const carrito = user?.carrito || [];
-    console.log("Productos fav", favorites);
+    
     
     try{
         const response =  await fetch(url + '/api/products/news');
