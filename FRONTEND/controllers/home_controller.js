@@ -37,7 +37,8 @@ async function loadNewProducts(){
             indicator.setAttribute('data-bs-target', '#carouselId');
             indicator.setAttribute('data-bs-slide-to', i);
             indicator.setAttribute('aria-label', `Slide ${i + 1}`);
-            
+            indicator.classList.add('carousel-indicator-custom');
+
             if (i === 0) {
                 indicator.classList.add('active');
                 indicator.setAttribute('aria-current', 'true');
@@ -128,6 +129,17 @@ async function loadNewProducts(){
                             console.error('Error al agregar al carrito', error);
                         }
                     });
+                } else {
+                    const heartIcon = cardDiv.querySelector('.heart-icon');
+                    const cartIcon = cardDiv.querySelector('.cart-icon');
+
+                    heartIcon.addEventListener('click', () => {
+                        alert('Favor de iniciar sesión para agregar a favoritos');
+                    });
+
+                    cartIcon.addEventListener('click', () => {
+                        alert('Favor de iniciar sesión para agregar al carrito');
+                    });
                 }
                                     
                 colDiv.appendChild(cardDiv);
@@ -192,6 +204,7 @@ async function loadFavoriteProducts(){
             indicator.setAttribute('data-bs-target', '#carouselId2');
             indicator.setAttribute('data-bs-slide-to', i);
             indicator.setAttribute('aria-label', `Slide ${i + 1}`);
+            indicator.classList.add('carousel-indicator-custom');
             
             if (i === 0) {
                 indicator.classList.add('active');
@@ -306,7 +319,7 @@ async function updateCartIconInViews(prodId) {
         const productId = icon.closest('.card').dataset.productId;
 
         if (productId === prodId) {
-            const isInCart = carrito.some(item => item.producto === prodId);
+            const isInCart = carrito.some(item => item.producto === prodId); //Verificar si el cproducto ya esta en el carrito o no
             if (isInCart) {
                 icon.classList.add('in-cart');
             } else {

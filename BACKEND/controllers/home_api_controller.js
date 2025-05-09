@@ -11,7 +11,7 @@ exports.getNewProducts = async function (req, res) {
     try {
         console.log("Intentando consultar productos..."); 
         const newProducts = await Product.find()
-            .sort({ createdAt: -1 }) // Sort por fecha descendiente
+            .sort({ createdAt: -1 }) // Sort por fecha descendente
             .limit(6); // Limite de 6 productos
         console.log("Productos encontrados:", newProducts);
         res.status(200).json(newProducts);
