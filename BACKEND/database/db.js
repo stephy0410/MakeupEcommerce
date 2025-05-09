@@ -1,7 +1,7 @@
 // db.js
 const mongoose = require('mongoose');
 
-const mongoConnection = "mongodb+srv://admin:Cluster123@myapp.ougc2dq.mongodb.net/Makeup_Commerce";
+const mongoConnection = "mongodb+srv://stephy04:Brownie5@cluster0.0ycletr.mongodb.net/MakeupEcommerceDB";
 // const mongoConnection = "mongodb+srv://stephy04:Brownie5@cluster0.0ycletr.mongodb.net/MakeupEcommerceDB";
 const db = mongoose.connection;
 

@@ -4,12 +4,12 @@ async function loadNewProducts(){
     const carousel = document.getElementById('carouselLoMasNuevo');
     const indicatorsContainer = document.getElementById('indicatorC1');
     const user = JSON.parse(localStorage.getItem('user'));
-    
+    console.log(user);
 
     const userID = user?.id;
     const favorites = user?.favoritos || [];
     const carrito = user?.carrito || [];
-    
+    console.log("Productos fav", favorites);
     
     try{
         const response =  await fetch(url + '/api/products/news');
@@ -37,7 +37,8 @@ async function loadNewProducts(){
             indicator.setAttribute('data-bs-target', '#carouselId');
             indicator.setAttribute('data-bs-slide-to', i);
             indicator.setAttribute('aria-label', `Slide ${i + 1}`);
-            
+            indicator.classList.add('carousel-indicator-custom');
+
             if (i === 0) {
                 indicator.classList.add('active');
                 indicator.setAttribute('aria-current', 'true');
@@ -100,8 +101,6 @@ async function loadNewProducts(){
                                         }
                                     </div>
                                     </div>`;
-
-
                 if(user){
                     cardDiv.querySelector('.heart-icon').addEventListener('click', async (e) => {
                         const icon = e.target;
@@ -140,6 +139,17 @@ async function loadNewProducts(){
                         } catch (error) {
                             console.error('Error al agregar al carrito', error);
                         }
+                    });
+                } else {
+                    const heartIcon = cardDiv.querySelector('.heart-icon');
+                    const cartIcon = cardDiv.querySelector('.cart-icon');
+
+                    heartIcon.addEventListener('click', () => {
+                        alert('Favor de iniciar sesión para agregar a favoritos');
+                    });
+
+                    cartIcon.addEventListener('click', () => {
+                        alert('Favor de iniciar sesión para agregar al carrito');
                     });
                 }
                                     
@@ -205,6 +215,7 @@ async function loadFavoriteProducts(){
             indicator.setAttribute('data-bs-target', '#carouselId2');
             indicator.setAttribute('data-bs-slide-to', i);
             indicator.setAttribute('aria-label', `Slide ${i + 1}`);
+            indicator.classList.add('carousel-indicator-custom');
             
             if (i === 0) {
                 indicator.classList.add('active');
@@ -319,7 +330,7 @@ async function updateCartIconInViews(prodId) {
         const productId = icon.closest('.card').dataset.productId;
 
         if (productId === prodId) {
-            const isInCart = carrito.some(item => item.producto === prodId);
+            const isInCart = carrito.some(item => item.producto === prodId); //Verificar si el cproducto ya esta en el carrito o no
             if (isInCart) {
                 icon.classList.add('in-cart');
             } else {
