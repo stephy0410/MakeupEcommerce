@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Home</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <style>
+        .textHome {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+        }
+        .textHome h1 {
+            font-size: 70px;
+        }
+        .overlay {
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0; 
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .personalized-widget {
+            height: 300px; 
+            align-items: center;
+        }
+        .personalized-widget2 {
+            background-color: #6D2D2F;
+            color: white;
+            height: 300px;
+        }
+        .cardTitle-style {
+            font-size: 70px; 
+            font-family: 'Euphoria Script', cursive;
+            text-align: center;
+        }
+        .cardBody-style {
+            font-size: 20px;
+            font-family: 'Crimson Text', serif;
+            text-align: center;
+        }
+        .card-img-top {
+            height: 130px;
+            width: 100%;
+            object-fit: contain;
+        }
+        .card {
+            border-radius: 10px;
+            border: none;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .cardW:hover {
+            box-shadow: 0 3px 6px rgb(249, 229, 229), 0 3px 6px rgb(239, 213, 213);
+            transform: translate(0px, -8px);
+        }
+        .cardW {
+            max-width: 280px;
+            height: 350px;
+            margin: 0 auto;
+            display: flex;
+        }
+    
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+            padding: 10px;
+        }
+    
+        .product-title {
+            min-height: 38px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+            text-align: left; 
+        }
+
+        .product-desc {
+            min-height: 48px;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+
+        .product-price {
+            min-height: 36px;
+            text-align: left;
+        }
+
+        .discount-badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            background-color: #dc3545;
+            color: white;
+            border-radius: 8px;
+            margin-top: 4px;
+        }
+
+    
+        .badge-inline {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 0.35em 0.6em;
+            vertical-align: middle;
+        }
+    
+        .cart-icon {
+            position: absolute;
+            right: 10px;
+            background-color: black;
+            color: white;
+            border-radius: 50%;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .cart-icon.in-cart {
+            color: pink;
+        }
+        .heart-icon {
+            font-size: 25px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .carousel1 {
+            background-color: #6D2D2F;
+            padding-top: 25px;
+            padding-bottom: 25px;
+        }
+        .carousel2 {
+            background-color: #FFF0F5;
+            padding-top: 25px;
+            padding-bottom: 25px;
+        }
+        #carouselId2 .carousel-control-prev,
+        #carouselId2 .carousel-control-next,
+        #carouselId .carousel-control-prev,
+        #carouselId .carousel-control-next {
+            display: none !important;
+        }
+    </style>
+    
+        
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Euphoria+Script&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/4bb0cb35f0.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-light bg-light"> 
+            <div class="container">
+                <a class="navbar-brand" style="font-family: 'Euphoria Script', cursive;" href="#" onclick="AuthController.redirectWithAuth('Home.html')">Rosée</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavId">
+                    <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="AuthController.redirectWithAuth('Home.html')">Home</a> 
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="AuthController.redirectWithAuth('Home.html')">Favoritos</a> 
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Productos</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownId">
+                                <a class="dropdown-item" href="./Filter.html?tag=Primer">Primer</a>
+                                <a class="dropdown-item" href="./Filter.html?tag=Blush">Blush</a>
+                                <a class="dropdown-item" href="./Filter.html?tag=Rimel">Rimel</a>
+                                <a class="dropdown-item" href="./Filter.html?tag=Labial">Labial</a>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- Contenedor que se actualizará dinámicamente según el login -->
+                    <div class="d-flex align-items-center ms-2" id="authIcons"></div>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main content -->
+    <main>
+        <div class="container">
+            <div style="position: relative; height: 400px; object-fit: cover; overflow: hidden;">
+                <img src="../Imagenes/Makeup.png" class="banner-img" alt="Makeup Banner">
+                <div class="overlay"></div>
+                <div class="textHome">
+                    <h1>Rosée</h1>
+                    <p>Haz que tu rutina de belleza sea tan simple como un clic. Explora, elige y recibe sin complicaciones..</p>
+                </div>
+            </div>
+        </div>
+
+
+        <p style="padding-left: 10px;"><b>Lo más nuevo</b></p>
+        <div id="carouselId" class="carousel slide" data-bs-ride="carousel">
+            <ol id="indicatorC1" class="carousel-indicators">
+            </ol>
+
+            <div id="carouselLoMasNuevo" class="carousel-inner carousel1" role="listbox">
+            </div>
+            <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselId"
+                data-bs-slide="prev"
+            >
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselId"
+                data-bs-slide="next"
+            >
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <div id="favoritesSection">
+            <p style="padding-left: 10px;"><b>Favoritos</b></p>
+            <div id="carouselId2" class="carousel slide" data-bs-ride="carousel">
+                <ol id="indicatorC2" class="carousel-indicators">
+                </ol>
+                <div id="carouselFavoritos"class="carousel-inner carousel2" role="listbox">
+                    <div class="carousel-item active">
+                    </div> 
+                </div>
+                <button
+                    class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#carouselId2"
+                    data-bs-slide="prev"
+                >
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button
+                    class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#carouselId2"
+                    data-bs-slide="next"
+                >
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        
+   
+   
+    </main>
+    <!-- Modal: Cerrar Sesión -->
+    <div class="modal fade" id="logoutModal" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cerrar Sesión</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que deseas cerrar sesión?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-danger" onclick="AuthController.logout()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+            <!-- Modal: Editar Usuario -->
+    <div class="modal fade"  id="editUserModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="editName" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="editName" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editEmail" class="form-label">Correo</label>
+                            <input type="text" class="form-control" id="editEmail" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPassword" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="editPassword" name="password" required>
+                        </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-danger me-auto" onclick="confirmDelete()" id="deleteBtn">Eliminar</button>
+                        <button type="button" class="btn btn-primary" onclick="updateUser()" id="saveBtn">Guardar Cambios</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+            
+            <!-- Optional: Place to the bottom of scripts -->
+            <script>
+                const myModal = new bootstrap.Modal(
+                    document.getElementById("editUserModal"),
+                    options,
+                );
+            </script>
+    <!-- Footer -->
+    <footer>
+        <!-- place footer here -->
+    </footer>
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <script src="./controllers/auth_controller.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        AuthController.handleNavigation();
+      });
+    </script>
+    
+    <script src="../controllers/user_profile_controller.js"></script>
+    <script src="../controllers/user_profile_controller.js"></script>
+    <script src="../controllers/home_controller.js"></script>
+</body>
+</html>

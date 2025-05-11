@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Shopping Cart</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Links de Bootstrap -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+
+        <script src="https://kit.fontawesome.com/53a6bc0a7f.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Euphoria+Script&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/4bb0cb35f0.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-md navbar-light bg-light"> 
+                <div class="container">
+                    <a class="navbar-brand" style="font-family: 'Euphoria Script', cursive;" href="#" onclick="AuthController.redirectWithAuth('Home.html')">Rosée</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="collapsibleNavId">
+                        <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="AuthController.redirectWithAuth('Home.html')">Home</a> 
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" onclick="AuthController.redirectWithAuth('Home.html')">Favoritos</a> 
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Productos</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownId">
+                                    <a class="dropdown-item" href="./Primer.html">Primer</a>
+                                    <a class="dropdown-item" href="./Blush.html">Blush</a>
+                                    <a class="dropdown-item" href="./Rimel.html">Rimel</a>
+                                    <a class="dropdown-item" href="./Labial.html">Labial</a>
+                                </div>
+                            </li>
+                        </ul>
+                        <!-- Contenedor que se actualizará dinámicamente según el login -->
+                        <div class="d-flex align-items-center ms-2" id="authIcons"></div>
+    
+                    </div>
+                </div>
+            </nav>
+            <!-- Modal Body -->
+            <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+            <div
+                class="modal fade"
+                id="editUserModal"
+                tabindex="-1"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
+                
+                role="dialog"
+                aria-labelledby="modalTitleId"
+                aria-hidden="true"
+            >
+                <div
+                    class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
+                    role="document"
+                >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">
+                                Editar Usuario
+                            </h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" name="nombre" id="nombre"
+                                    placeholder="Nombre" required=true />
+                            </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Correo</label>
+                                <input type="email" class="form-control" name="correo" id="correo"
+                                    placeholder="correo@gmail.com" required=true />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Cancelar
+                            </button>
+                            <button type="button" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Optional: Place to the bottom of scripts -->
+            <script>
+                const myModal = new bootstrap.Modal(
+                    document.getElementById("editUserModal"),
+                    options,
+                );
+            </script>
+        </header>
+
+        <main>
+            <head>
+                <!-- Uso de stripe -->
+                <script src="https://js.stripe.com/v3/"></script>
+            </head>
+
+            <div class="container-fluid">
+                <div class="row g-3 m-2">
+                    <!-- Carta de "Shopping Cart"   -->
+                    <div class="col-md-8">
+                        <div class="card h-100" style="background-color: #434343; color: #f3f3f3;">
+                            <div class="card-body" style="height: 680px; margin: 10px; overflow-y: auto; padding-right: 10px;">
+                                <!-- Titulo y subtitulo -->
+                                <h3>Carrito de compras</h3>
+                                <h6 style="color: #757575;">Productos</h6><br>
+
+                                <!-- Agregar todas las cartas de los productos a comprar -->
+                                <div id="AddShopProducts"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Carta de Summary -->
+                    <div class="col-md-4">
+                        <div class="card" style="background-color: #D9D9D9;">
+                            <div class="card-body" style="height: 680px; margin: 10px; overflow-y: auto; padding-right: 10px;">
+                                <!-- Titulo -->
+                                <b>
+                                    <h1 style=" text-align: center; border-bottom: 2px solid black; margin: 10px; padding-bottom: 5px;">Resumen del pedido</h1>
+                                </b>
+
+                                <div style="margin: 40px;">
+                                    <div style="margin-top: 50px;">
+                                        <!-- Subtotal -->
+                                        <div class="d-flex justify-content-between mt-3">
+                                            <h5>Subtotal</h5>
+                                            <p id="subtotal"></p>
+                                        </div>
+
+                                        <!-- Descuentos  -->
+                                        <div class="d-flex justify-content-between mt-3">
+                                            <h5>Descuento</h5>
+                                            <p id="descuento"></p>
+                                        </div>
+
+                                        <!-- Total  -->
+                                        <div class="d-flex justify-content-between mt-3">
+                                            <h5>Total</h5>
+                                            <p id="total"></p>
+                                        </div>
+                                    </div>
+                                   
+                                    <!-- Botones e inputs -->
+                                    <div style="margin-top: 200px">
+                                        <label for="text">Dirección</label><br>
+                                        <input type="text" required="true" name="location" id="location" placeholder="Domicilio o lugar de entrega" style="margin-top: 10px; border: none; border-radius: 5px; height: 40px; width: 100%; padding: 10px;"><br>
+
+                                        <a data-bs-toggle="modal" data-bs-target="#paymentModal" href="#" style="margin-top: 10px;">
+                                            <button type="button" id="pay_button" style="background-color: #6D2D2F; color: #FFF; margin-top: 10px; border: none; border-radius: 5px; height: 40px; width: 100%; cursor: pointer;">Pagar</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              </div>
+            </div>
+        </main>
+
+        <!-- Modal: Cerrar Sesión -->
+        <div class="modal fade" id="logoutModal" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Cerrar Sesión</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Estás seguro de que deseas cerrar sesión?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" onclick="AuthController.logout()">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Links de JavaScript -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"
+        ></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script src="./controllers/auth_controller.js"></script>
+        <script src="./controllers/carrito_controller.js"></script>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            AuthController.handleNavigation();
+        });
+        </script>
+    </body>
+</html>
