@@ -230,4 +230,16 @@ exports.updateCart = async function (req, res) {
         console.error(err);
         res.status(500).json({error: "Error al actualizar el carrito"});
     }
+
 }
+exports.getUserById = async function(req, res) {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
+
+        res.status(200).json(user);
+    } catch (err) {
+        console.error("Error al obtener usuario:", err.message);
+        res.status(500).json({ error: "Error al obtener el usuario" });
+    }
+};

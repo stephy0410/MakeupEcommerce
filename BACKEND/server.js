@@ -6,7 +6,7 @@ const adminRoutes = require('./routes/admin'); // Añade esta línea
 const cors = require('cors');
 const dotenv = require('dotenv');
 const userRoutes = require('./routes/users');
-
+const stripeController = require('./controllers/stripe_api_controller');
 dotenv.config();
 const app = express();
 
@@ -74,6 +74,8 @@ app.get('/Admin.html', (req, res) => {
 app.use('/api', apiRoutes);
 app.use('/api/users', userRoutes);
 app.use('/admin', adminRoutes); // Añade esta línea
+
+app.post('/create_stripe', stripeController.createPaymentIntent);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -20,6 +20,33 @@
         <script src="https://kit.fontawesome.com/53a6bc0a7f.js" crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Euphoria+Script&display=swap" rel="stylesheet">
         <script src="https://kit.fontawesome.com/4bb0cb35f0.js" crossorigin="anonymous"></script>
+        <style>
+            .input-counter {
+                display: inline-flex;
+                align-items: center;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                overflow: hidden;
+                background-color: #fff;
+            }
+
+            .input-counter button {
+                background-color: transparent;
+                border: none;
+                width: 30px;
+                height: 30px;
+                font-size: 20px;
+                cursor: pointer;
+                color: #444;
+            }
+
+            .input-counter span {
+                width: 40px;
+                text-align: center;
+                font-weight: bold;
+                color: #333;
+            }
+        </style>
     </head>
 
     <body>
@@ -38,10 +65,10 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Productos</a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownId">
-                                    <a class="dropdown-item" href="./Primer.html">Primer</a>
-                                    <a class="dropdown-item" href="./Blush.html">Blush</a>
-                                    <a class="dropdown-item" href="./Rimel.html">Rimel</a>
-                                    <a class="dropdown-item" href="./Labial.html">Labial</a>
+                                    <a class="dropdown-item" href="./Filter.html?tag=Primer">Primer</a>
+                                    <a class="dropdown-item" href="./Filter.html?tag=Blush">Blush</a>
+                                    <a class="dropdown-item" href="./Filter.html?tag=Rimel">Rimel</a>
+                                    <a class="dropdown-item" href="./Filter.html?tag=Labial">Labial</a>
                                 </div>
                             </li>
                         </ul>
@@ -51,71 +78,15 @@
                     </div>
                 </div>
             </nav>
-            <!-- Modal Body -->
-            <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-            <div
-                class="modal fade"
-                id="editUserModal"
-                tabindex="-1"
-                data-bs-backdrop="static"
-                data-bs-keyboard="false"
-                
-                role="dialog"
-                aria-labelledby="modalTitleId"
-                aria-hidden="true"
-            >
-                <div
-                    class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
-                    role="document"
-                >
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalTitleId">
-                                Editar Usuario
-                            </h5>
-                            <button
-                                type="button"
-                                class="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                            ></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" name="nombre" id="nombre"
-                                    placeholder="Nombre" required=true />
-                            </div>
-                            <div class="mb-3">
-                                <label for="" class="form-label">Correo</label>
-                                <input type="email" class="form-control" name="correo" id="correo"
-                                    placeholder="correo@gmail.com" required=true />
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button
-                                type="button"
-                                class="btn btn-secondary"
-                                data-bs-dismiss="modal"
-                            >
-                                Cancelar
-                            </button>
-                            <button type="button" class="btn btn-primary">Guardar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Optional: Place to the bottom of scripts -->
-            <script>
-                const myModal = new bootstrap.Modal(
-                    document.getElementById("editUserModal"),
-                    options,
-                );
-            </script>
+          
         </header>
 
         <main>
+            <head>
+                <!-- Uso de stripe -->
+                <script src="https://js.stripe.com/v3/"></script>
+            </head>
+
             <div class="container-fluid">
                 <div class="row g-3 m-2">
                     <!-- Carta de "Shopping Cart"   -->
@@ -126,113 +97,8 @@
                                 <h3>Carrito de compras</h3>
                                 <h6 style="color: #757575;">Productos</h6><br>
 
-                                <!-- Cartas del producto 1 -->
-                                <div class="card d-flex flex-column mb-3" style="background-color: #f3f3f3; height: 150px; overflow-y: auto;">
-                                    <div class="card-body" style="padding: 10px;">
-                                        <div class="d-flex">
-                                            <img src="https://i.pinimg.com/736x/7e/06/56/7e06566ae50247ede5e47233502a3fcf.jpg" class="product-image" alt="Labial" style="margin-right: 10px; width: 125px; height: 125px; border-radius: 10px;">
-                                            <div class="ms-3 flex-grow-1">
-                                                <!-- Titulo -->
-                                                <b style="margin-top: 10px; display: block;">SILKY MATTE LIPSTICK (MAC)</b>
-
-                                                <!-- Descripcion -->
-                                                <p style="margin-top: 10px; display: block;">Un labio mate y suave con una cobertura total, un color intenso y 12 horas de cómoda aplicación en un tamaño mini para llevar.</p>
-
-                                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                                    <!-- Precio -->
-                                                    <b>Precio: $369.00</b>
-
-                                                    <div>
-                                                        <i class="fa-solid fa-minus" style="color: blue; margin: 5px;"></i>
-                                                        Cantidad: 1
-                                                        <i class="fa-solid fa-plus" style="color: blue; margin: 5px;"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>   
-                                </div>
-
-                                <!-- Cartas del producto 2 -->
-                                <div class="card d-flex flex-column mb-3" style="background-color: #f3f3f3; height: 150px; overflow-y: auto;">
-                                    <div class="card-body" style="padding: 10px;">
-                                        <div class="d-flex">
-                                            <img src="https://i.pinimg.com/736x/cd/96/b1/cd96b15284059f199a5023718e9fddb0.jpg" class="product-image" alt="Paleta_Cosmica" style="margin-right: 10px; width: 125px; height: 125px; border-radius: 10px;">
-                                            <div class="ms-3 flex-grow-1">
-                                                <!-- Titulo -->
-                                                <b style="margin-top: 10px; display: block;">LÁPIZ DELINEADOR DUO (RENOVA)</b>
-
-                                                <!-- Descripcion -->
-                                                <p style="margin-top: 10px; display: block;">Define y destaca tu mirada por su aplicación fácil y precisa en un solo trazo.</p>
-
-                                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                                    <!-- Precio -->
-                                                    <b>Precio: $109.00</b>
-
-                                                    <div>
-                                                        <i class="fa-solid fa-minus" style="color: blue; margin: 5px;"></i>
-                                                        Cantidad: 1
-                                                        <i class="fa-solid fa-plus" style="color: blue; margin: 5px;"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>   
-                                </div>
-
-                                <!-- Cartas del producto 3 -->
-                                <div class="card d-flex flex-column mb-3" style="background-color: #f3f3f3; height: 150px; overflow-y: auto;">
-                                    <div class="card-body" style="padding: 10px;">
-                                        <div class="d-flex">
-                                            <img src="https://i.pinimg.com/736x/ea/a9/86/eaa986eb0ab9e9e4c233afbfee92e06e.jpg" class="product-image" alt="Strawberry_ink" style="margin-right: 10px; width: 125px; height: 125px; border-radius: 10px;">
-                                            <div class="ms-3 flex-grow-1">
-                                                <!-- Titulo -->
-                                                <b style="margin-top: 10px; display: block;">CHEEK TINT-CHILI COLOR (SHEGLAM)</b>
-
-                                                <!-- Descripcion -->
-                                                <p style="margin-top: 10px; display: block;">Tinte líquido para mejillas y labios, fácil de usar, proporciona un look natural que no se desvanecerá después de un largo día.</p>
-
-                                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                                    <!-- Precio -->
-                                                    <b>Precio: $110.00</b>
-
-                                                    <div>
-                                                        <i class="fa-solid fa-minus" style="color: blue; margin: 5px;"></i>
-                                                        Cantidad: 3
-                                                        <i class="fa-solid fa-plus" style="color: blue; margin: 5px;"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>   
-                                </div>
-
-                                <!-- Cartas del producto 4 -->
-                                <div class="card d-flex flex-column mb-3" style="background-color: #f3f3f3; height: 150px; overflow-y: auto;">
-                                    <div class="card-body" style="padding: 10px;">
-                                        <div class="d-flex">
-                                            <img src="https://i.pinimg.com/736x/0c/28/a5/0c28a543a55ab8595d681aca01f3a85e.jpg" class="product-image" alt="Strawberry_powder" style="margin-right: 10px; width: 125px; height: 125px; border-radius: 10px;">
-                                            <div class="ms-3 flex-grow-1">
-                                                <!-- Titulo -->
-                                                <b style="margin-top: 10px; display: block;">STRAWBERRY CUPID PRESSED POWDER (FLOWER KNOWS)</b>
-
-                                                <!-- Descripcion -->
-                                                <p style="margin-top: 10px; display: block;">Perfección que difumina los poros y se funde con la piel, justo en tu bolsillo.</p>
-
-                                                <div class="d-flex justify-content-between align-items-center mt-3">
-                                                    <!-- Precio -->
-                                                    <b>Precio: $682.63</b>
-
-                                                    <div>
-                                                        <i class="fa-solid fa-minus" style="color: blue; margin: 5px;"></i>
-                                                        Cantidad: 1
-                                                        <i class="fa-solid fa-plus" style="color: blue; margin: 5px;"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>   
-                                </div>
+                                <!-- Agregar todas las cartas de los productos a comprar -->
+                                <div id="AddShopProducts"></div>
                             </div>
                         </div>
                     </div>
@@ -251,105 +117,101 @@
                                         <!-- Subtotal -->
                                         <div class="d-flex justify-content-between mt-3">
                                             <h5>Subtotal</h5>
-                                            <p>$1,490.63</p>
+                                            <p id="subtotal"></p>
                                         </div>
 
                                         <!-- Descuentos  -->
                                         <div class="d-flex justify-content-between mt-3">
                                             <h5>Descuento</h5>
-                                            <p>-$0</p>
+                                            <p id="descuento"></p>
                                         </div>
 
                                         <!-- Total  -->
                                         <div class="d-flex justify-content-between mt-3">
                                             <h5>Total</h5>
-                                            <p>$1,490.63</p>
+                                            <p id="total"></p>
                                         </div>
                                     </div>
                                    
                                     <!-- Botones e inputs -->
-                                    <div style="margin-top: 120px">
+                                    <div style="margin-top: 200px">
                                         <label for="text">Dirección</label><br>
-                                        <input type="text" required="true" name="location" id="location" placeholder="Domicilio o lugar de entrega" style="margin-top: 10px; border: none; border-radius: 5px; height: 40px; width: 100%; padding: 10px;"><br><br>
-    
-                                        <div style="display: flex; gap: 5px;">
-                                            <input type="text" name="disc_code" id="disc_code" placeholder="Código de descuento" style="flex: 2; border: none; border-radius: 10px; height: 40px; padding: 10px;;">
-                                            <button type="button" style="flex: 1; background-color: #FFF; border: none; border-radius: 10px; margin-left: 5px; width: 140px; height: 40px; cursor: pointer;">Aplicar</button>
-                                        </div>
-                                    </div><br>
-                                    
-                                    <a data-bs-toggle="modal" data-bs-target="#Ship_Info" href="#">
-                                        <button type="button" style="background-color: #6D2D2F; color: #FFF; margin-top: 10px; border: none; border-radius: 5px; height: 40px; width: 100%; cursor: pointer;">Pagar</button>
-                                    </a>
+                                        <input type="text" required="true" name="location" id="location" placeholder="Domicilio o lugar de entrega" style="margin-top: 10px; border: none; border-radius: 5px; height: 40px; width: 100%; padding: 10px;"><br>
+
+                                        <button type="button" id="pay_button" style="background-color: #6D2D2F; color: #FFF; margin-top: 10px; border: none; border-radius: 5px; height: 40px; width: 100%; cursor: pointer;">
+                                            Pagar
+                                          </button>                                          
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+              </div>
+            </div>
+        </main>
 
-                    <!-- Modal de Informacion de Entrega -->
-                    <form style="margin: 10px;">
-                        <div class="modal" id="Ship_Info">
-                            <div class="modal-dialog" style="width: 400px;">
-                                <div class="modal-content">
-
-                                    <!-- Header del modal -->
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Información de envio</h4>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-
-                                    <!-- Body del modal -->
-                                    <div class="modal-body">
-                                        <label for="name" class="form-label">Nombre completo</label>
-                                        <input type="text" class="form-control" required="true"><br>
-
-                                        <label for="text" class="form-label">Dirección</label>
-                                        <input type="text" class="form-control" required="true" name="location" id="location" placeholder="Domicilio o lugar de entrega"><br>
-    
-                                        <label for="text" class="form-label">Nota de entrega</label> 
-                                        <textarea name="delivery_note" id="delivery_note" rows="5" cols="45" placeholder="Algún detalle que ayude al repartidor a encontrar el lugar..." style="padding: 10px;"></textarea><br><br>          
-                                    
-                                        <input type="checkbox" name="confirm_ckbx" value="chk1"> Acepto los <u>términos y condiciones</u>
-                                    </div>
-
-                                    <!-- Cerrar el modal -->
-                                    <div class="modal-footer">
-                                        <div style="display: flex; width: 100%; gap: 10px; padding: 10px;">
-                                            <button type="button" style="flex: 1; background-color: #D9D9D9; color: black; border: none; border-radius: 5px; height: 40px; cursor: pointer;">
-                                                Cancelar
-                                            </button>
-                                            <button type="button" style="flex: 1; background-color: #6D2D2F; color: #FFF; border: none; border-radius: 5px; height: 40px; cursor: pointer;">
-                                                Guardar datos
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+        <!-- Modal: Cerrar Sesión -->
+        <div class="modal fade" id="logoutModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Cerrar Sesión</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Estás seguro de que deseas cerrar sesión?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button class="btn btn-danger" onclick="AuthController.logout()">Aceptar</button>
+                    </div>
                 </div>
             </div>
-            
-        </main>
-  <!-- Modal: Cerrar Sesión -->
-  <div class="modal fade" id="logoutModal" >
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Cerrar Sesión</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <p>¿Estás seguro de que deseas cerrar sesión?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" onclick="AuthController.logout()">Aceptar</button>
+        </div>
+
+        <!-- Modal: Editar Usuario -->
+        <div class="modal fade" id="editUserModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Perfil</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="editName" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="editName" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editEmail" class="form-label">Correo</label>
+                                <input type="text" class="form-control" id="editEmail" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editPassword" class="form-label">Contraseña</label>
+                                <input type="password" class="form-control" id="editPassword" name="password" required>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-danger me-auto" onclick="confirmDelete()"
+                                    id="deleteBtn">Eliminar</button>
+                                <button type="button" class="btn btn-primary" onclick="updateUser()" id="saveBtn">Guardar
+                                    Cambios</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+
+        <!-- Optional: Place to the bottom of scripts -->
+        <script>
+            const myModal = new bootstrap.Modal(
+                document.getElementById("editUserModal"),
+                options,
+            );
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
         <!-- Links de JavaScript -->
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
@@ -362,7 +224,13 @@
             integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
             crossorigin="anonymous"
         ></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
         <script src="./controllers/auth_controller.js"></script>
+        <script src="../controllers/user_profile_controller.js"></script>
+        <script src="./controllers/carrito_controller.js"></script>
+
         <script>
         document.addEventListener("DOMContentLoaded", () => {
             AuthController.handleNavigation();

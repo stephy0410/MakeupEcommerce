@@ -119,6 +119,9 @@ const AuthController = {
         // Mostrar íconos de usuario
         if (authIcons) {
             authIcons.innerHTML = `
+                <a href="./Pedidos.html" class="nav-link" title="Mis pedidos">
+                    <i class="fas fa-receipt" style="color: black; padding: 4px;"></i>
+                </a>
                 <a href="./Carrito.html" class="nav-link">
                     <i class="fa-solid fa-cart-shopping" style= color: black; padding: 4px;"></i>
                 </a>

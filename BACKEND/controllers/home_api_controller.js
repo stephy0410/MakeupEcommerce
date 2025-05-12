@@ -1,15 +1,16 @@
 const Product = require('../models/product');
 const User = require('../models/user');
 
-
+Product.countDocuments()
 
 // READ - GET /products/news
 exports.getNewProducts = async function (req, res) {
     try {
         
         const newProducts = await Product.find()
-            .sort({ createdAt: -1 }) // Sort por fecha descendente
+            .sort({ createdAt: -1 }) // Sort por fecha descendiente
             .limit(6); // Limite de 6 productos
+        
         res.status(200).json(newProducts);
     } catch (err) {
         console.error("Error en getNewProducts:", err.message); 
