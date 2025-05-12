@@ -1,7 +1,7 @@
 const Stripe = require('stripe');
 const stripe = Stripe(); 
 
-//'sk_test_51RNh6aPRHOOjlVmAXUI4zDkv5avG47C9XWDw4TDgVxbhjsWgf4VQgUUwRgn2NS3mJlZeocFUUrQfS858Qld8YAe800ZAOwuUC3'
+//'skELIMINENESTO_test_51RNh6aPRHOOjlVmAXUI4zDkv5avG47C9XWDw4TDgVxbhjsWgf4VQgUUwRgn2NS3mJlZeocFUUrQfS858Qld8YAe800ZAOwuUC3ES
 exports.createPaymentIntent = async (req, res) => {
   try {
     const { items, total } = req.body;
