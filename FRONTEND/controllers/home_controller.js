@@ -1,3 +1,4 @@
+//home_controller.js
 const url = 'http://localhost:3000';
 //import { updateCarrito } from './carrito_controller.js';
 
@@ -264,11 +265,23 @@ async function loadFavoriteProducts(){
                                         alt="${prod.name}"
                                     />`;
                 //Producto
-                cardDiv.innerHTML += `<div class="card-body d-flex flex-column">
-                                        <h5 class="card-title">${prod.name}</h5>
-                                        <p class="card-text">${prod.description}</p>
-                                        <p class="card-text"><b>${prod.price}</b></p>
-                                    </div>`;
+                cardDiv.innerHTML += `<div class="card-body">
+                                        <h5 class="product-title">${prod.name}</h5>
+                                        <p class="product-desc">${prod.description}</p>
+                                        <div class="product-price">
+                                            ${
+                                            prod.discount > 0
+                                                ? `
+                                                <div>
+                                                <span class="text-decoration-line-through me-2">$${prod.price.toFixed(2)}</span>
+                                                <span class="text-danger fw-bold">$${(prod.price * (1 - prod.discount / 100)).toFixed(2)}</span>
+                                                </div>
+                                                <div><span class="discount-badge">-${prod.discount}%</span></div>`
+                                                : `<b>$${prod.price.toFixed(2)}</b>`
+                                            }
+                                        </div>
+                                        </div>`;
+
                 
                 if (user) {
                     cardDiv.querySelector('.heart-icon').addEventListener('click', async () => {
@@ -379,25 +392,29 @@ async function guardarPedido() {
   
       if (res.ok) {
         console.log("Pedido guardado correctamente");
-        localStorage.removeItem("carrito");
-        localStorage.removeItem("direccion");
   
-        await fetch(`/api/users/${user._id}`, {
+        // Limpieza en MongoDB
+        await fetch(`/api/users/${user.id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ carrito: [] })
         });
+  
+        // Limpieza en almacenamiento local
+        user.carrito = [];
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.removeItem("carrito");
+        localStorage.removeItem("direccion");
         sessionStorage.removeItem("pedidoGuardado");
-
       } else {
-        console.error(" Error al guardar el pedido");
+        console.error("Error al guardar el pedido");
       }
   
     } catch (err) {
-      console.error(" Error al conectar con el backend:", err);
+      console.error("Error al conectar con el backend:", err);
     }
   }
-
+  
 // Inicialización
 window.addEventListener("DOMContentLoaded", () => {
     loadNewProducts();
@@ -407,15 +424,20 @@ window.addEventListener("DOMContentLoaded", () => {
     const alreadySaved = sessionStorage.getItem("pedidoGuardado");
   
     if (params.get("success") === "true" && !alreadySaved) {
-      guardarPedido();
-      sessionStorage.setItem("pedidoGuardado", "true");
-  
-      // Mostrar mensaje de agradecimiento
-      const mensaje = document.getElementById("mensajeGracias");
-      if (mensaje) mensaje.style.display = "block";
-  
-      // Limpiar ?success=true visualmente
-      history.replaceState(null, '', window.location.pathname);
-    }
+        guardarPedido().then(() => {
+          sessionStorage.setItem("pedidoGuardado", "true");
+      
+          
+          alert("¡Gracias por tu compra! Tu pedido ha sido procesado con éxito.");
+      
+          
+          loadNewProducts();
+          loadFavoriteProducts();
+      
+          // Limpiar el parámetro de la URL
+          history.replaceState(null, '', window.location.pathname);
+        });
+      }
+      
 });
   

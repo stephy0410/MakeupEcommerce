@@ -4,9 +4,13 @@ const url = 'http://localhost:3000';
 async function showProducts() {
     const user = JSON.parse(localStorage.getItem('user'));
     const user_carrito = user.carrito || []
-
-    if(user_carrito == 0) {
-        console.log("No hay productos guardados en el carrito");
+    if (!user_carrito || user_carrito.length === 0) {
+        const product_cart = document.getElementById("AddShopProducts");
+        product_cart.innerHTML = `
+            <div class="text-center text-muted mt-4" >
+                <h5 style="color:#ccc">No hay productos en el carrito.</h5>
+            </div>
+        `;
         return;
     }
 
@@ -44,26 +48,34 @@ async function showProducts() {
         x.style.cursor = 'pointer';
         x.style.fontSize = '20px';
         // Borrar el producto
-        x.addEventListener('click', function () {
-            // Compara el id a borrar con el id del producto
-            const index = user_carrito.findIndex(p => p.producto == prod.producto);
-
-            // Si existe el producto...
-            if(index != -1) {
-                // Se borra
-                user_carrito.splice(index, 1);
-                // Se actualiza el carrito del usuario
-                user.carrito = user_carrito;
-
-                // Se actualiza el usuario
+        x.addEventListener('click', async function () {
+            try {
+                const res = await fetch(`/api/users/${user.id}/carrito/${prod.producto}`, {
+                    method: 'DELETE'
+                });
+        
+                if (!res.ok) throw new Error("Error al eliminar en la base de datos");
+        
+                // Actualizar localStorage y vista
+                user.carrito = user.carrito.filter(p => p.producto !== prod.producto);
                 localStorage.setItem('user', JSON.stringify(user));
                 card_div.remove();
-
-                // Se actualiza la base de datos
-                updateCarrito(user.id, user.carrito);
                 priceProducts();
+                if (user.carrito.length === 0) {
+                    const product_cart = document.getElementById("AddShopProducts");
+                    product_cart.innerHTML = `
+                            <div class="text-center text-muted mt-4">
+                                <h5 style="color:#ccc;">No hay productos en el carrito.</h5>
+                            </div>
+                        `;
+
+                }
+            } catch (err) {
+                console.error("Error eliminando producto del carrito:", err);
+                alert("No se pudo eliminar el producto del carrito.");
             }
-        }) 
+        });
+        
 
         // Cuerpo de la carta
         const cartBody_div = document.createElement('div');
@@ -283,11 +295,12 @@ async function priceProducts() {
 
 // Actualizar el array de carrito dentro de usuarios
 function updateCarrito(userId, carrito) {
-    fetch(`/api/users/${userId}`, {
+    fetch(`/api/users/${userId}/carrito`, {
         method: 'PATCH',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ carrito: carrito })
     })
+
 
     // Si la respuesta no es correcta, se manda el error
     .then(res => {
@@ -342,12 +355,25 @@ async function html_stripe() {
 
     pay_button.addEventListener('click', async (event) => {
         event.preventDefault();
+
+        const updatedUser = JSON.parse(localStorage.getItem("user"));
+        const updatedCart = updatedUser.carrito || [];
+
+        if (updatedCart.length === 0) {
+            alert("No hay productos en el carrito para pagar.");
+            return;
+        }
+
         const direccion = document.getElementById("location").value;
         localStorage.setItem("direccion", direccion);
 
         try {
             const total = total_price;
-            const items = user_carrito.map(p => {
+            const updatedUser = JSON.parse(localStorage.getItem('user'));
+            const updatedCarrito = updatedUser.carrito || [];
+
+            const items = updatedCarrito.map(p => {
+
                 const producto = productos.find(prod => prod._id === p.producto);
                 return {
                     id: producto._id,
@@ -395,5 +421,4 @@ window.addEventListener('DOMContentLoaded', () => {
     showProducts();
     priceProducts();
     html_stripe();
-    //pago_exitoso();
 });

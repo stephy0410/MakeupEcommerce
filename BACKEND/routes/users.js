@@ -28,11 +28,12 @@ router.put('/:id/role', usersController.requireAuth, usersController.requireAdmi
         res.status(500).json({ message: 'Error updating user role' });
     }
 });
-router.patch('/users/:id', usersController.updateCurrentUser);  // Editar usuario actual
-router.patch('/users/:id', usersController.updateCart);
+router.patch('/users/:id', usersController.updateCurrentUser);          // para editar perfil
+router.patch('/users/:id/carrito', usersController.updateCart);         // para actualizar carrito
 router.delete('/me', usersController.deleteCurrentUser); // Eliminar usuario actual
 
 router.post('/users/:userID/favs/:productID', usersController.favorites); //yo
 router.post('/users/:userID/carrito/:productID', usersController.cart); //yo
+router.delete('/users/:userID/carrito/:productID', usersController.removeFromCart);
 
 module.exports = router;

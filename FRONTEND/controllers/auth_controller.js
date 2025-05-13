@@ -207,14 +207,22 @@ document.addEventListener('DOMContentLoaded', function () {
             const email = document.getElementById('registerEmail').value.trim();
             const password = document.getElementById('registerPassword').value;
             const confirmPassword = document.getElementById('registerConfirmPassword').value;
-
+            const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+            if (!strongPasswordRegex.test(password)) {
+                alert("La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.");
+                return;
+            }
             AuthController.register(username, email, password, confirmPassword)
                 .then(function() {
                     alert('Registro exitoso! Por favor inicia sesión.');
                     toggleForms();
                 })
                 .catch(function(error) {
-                    alert(error.message);
+                    if (error.message === 'El usuario ya existe') {
+                        alert(`El usuario "${username}" ya existe. Por favor elige otro nombre.`);
+                    } else {
+                        alert(error.message);
+                    }
                 });
         });
     }

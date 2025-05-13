@@ -32,7 +32,15 @@ window.updateUser = function () {
 
     if (username && username !== user.username) updates.username = username;
     if (email && email !== user.email) updates.email = email;
-    if (password) updates.password = password;
+    if (password) {
+        const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+        if (!strongPasswordRegex.test(password)) {
+            alert("La nueva contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.");
+            return;
+        }
+        updates.password = password;
+    }
+    
 
     if (Object.keys(updates).length === 0) {
         alert('No hiciste cambios');
@@ -43,29 +51,39 @@ window.updateUser = function () {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
-            //'Authorization': authId
         },
         body: JSON.stringify(updates)
     })
-    .then(res => res.json())
+    .then(async res => {
+        if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.message || 'Error al actualizar usuario');
+        }
+        return res.json();
+    })
     .then(data => {
         alert('Usuario actualizado');
-
-        // Guardar el nuevo usuario con su id correcto
-        sessionStorage.setItem('user', JSON.stringify(data));
-        localStorage.setItem('user', JSON.stringify(data));
-
-        // Cerrar modal
+    
+        const currentSessionUser = JSON.parse(sessionStorage.getItem('user'));
+        const currentLocalUser = JSON.parse(localStorage.getItem('user'));
+    
+        const mergedSessionUser = { ...currentSessionUser, ...data };
+        const mergedLocalUser = { ...currentLocalUser, ...data };
+    
+        sessionStorage.setItem('user', JSON.stringify(mergedSessionUser));
+        localStorage.setItem('user', JSON.stringify(mergedLocalUser));
+    
         const modal = bootstrap.Modal.getInstance(document.getElementById('editUserModal'));
         if (modal) modal.hide();
-
-        // Refrescar el navbar con nueva info
+    
         AuthController.handleNavigation();
-
     })
-    .catch(err => alert('Error al actualizar usuarioooooo'));
-};
-
+    .catch(err => {
+        alert(err.message || 'Error al actualizar usuario');
+    });    
+    
+}
+    
 window.confirmDelete = function () {
     const authId = JSON.parse(localStorage.getItem('user')).id;
 

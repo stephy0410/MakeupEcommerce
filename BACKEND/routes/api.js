@@ -20,7 +20,7 @@ router.delete('/products/:id', adminController.authProductMiddleware, adminContr
 router.get('/orders/:id', orderController.getOrdersByUser);
 router.post('/orders', orderController.createOrder);
 router.get('/products/:id', carritoController.showCartProducts);
-router.patch('/users/:id', userController.updateCart);
+router.patch('/users/:id/carrito', userController.updateCart);  
 router.get('/users/:id', userController.getUserById);
 
 module.exports = router;

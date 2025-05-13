@@ -11,7 +11,8 @@ exports.register = function(req, res) {
     User.findOne({ $or: [{ email }, { username }] })
         .then(function(existingUser) {
             if (existingUser) {
-                return res.status(400).json({ message: 'El usuario ya existe' });
+                res.status(400).json({ message: `El usuario "${username}" ya existe, elige otro` });
+                return;
             }
 
             const user = new User({ 
@@ -26,6 +27,7 @@ exports.register = function(req, res) {
             return user.save();
         })
         .then(function(user) {
+            if (!user) return;
             const sessionId = Math.random().toString(36).substring(2);
             sessions[sessionId] = user._id;
             
@@ -123,11 +125,19 @@ exports.updateCurrentUser = async function (req, res) {
         if (password) updatedData.password = password;
         
 
+        if (updatedData.username) {
+            const existing = await User.findOne({ username: updatedData.username });
+            if (existing && existing._id.toString() !== userId) {
+                return res.status(400).json({ message: `El usuario "${updatedData.username}" ya está en uso.` });
+            }
+        }
+        
         const updatedUser = await User.findByIdAndUpdate(
             userId,
             updatedData,
             { new: true }
         );
+        
 
         if (!updatedUser) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -241,5 +251,21 @@ exports.getUserById = async function(req, res) {
     } catch (err) {
         console.error("Error al obtener usuario:", err.message);
         res.status(500).json({ error: "Error al obtener el usuario" });
+    }
+};
+exports.removeFromCart = async function (req, res) {
+    const { userID, productID } = req.params;
+
+    try {
+        const user = await User.findById(userID);
+        if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+
+        user.carrito = user.carrito.filter(item => item.producto !== productID);
+
+        await user.save();
+        res.json(user.carrito);
+    } catch (error) {
+        console.error("Error al eliminar del carrito:", error);
+        res.status(500).json({ error: 'Error interno al eliminar del carrito' });
     }
 };
