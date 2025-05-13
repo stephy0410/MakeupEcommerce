@@ -395,4 +395,5 @@ window.addEventListener('DOMContentLoaded', () => {
     showProducts();
     priceProducts();
     html_stripe();
+    //pago_exitoso();
 });

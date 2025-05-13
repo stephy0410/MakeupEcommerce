@@ -1,4 +1,5 @@
 const url = 'http://localhost:3000';
+//import { updateCarrito } from './carrito_controller.js';
 
 async function loadNewProducts(){
     const carousel = document.getElementById('carouselLoMasNuevo');
@@ -381,7 +382,7 @@ async function guardarPedido() {
         localStorage.removeItem("carrito");
         localStorage.removeItem("direccion");
   
-        await fetch(`/api/users/${user.id}`, {
+        await fetch(`/api/users/${user._id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ carrito: [] })
@@ -396,7 +397,7 @@ async function guardarPedido() {
       console.error(" Error al conectar con el backend:", err);
     }
   }
-  
+
 // Inicialización
 window.addEventListener("DOMContentLoaded", () => {
     loadNewProducts();
@@ -416,7 +417,5 @@ window.addEventListener("DOMContentLoaded", () => {
       // Limpiar ?success=true visualmente
       history.replaceState(null, '', window.location.pathname);
     }
-  });
-  
-  
+});
   
