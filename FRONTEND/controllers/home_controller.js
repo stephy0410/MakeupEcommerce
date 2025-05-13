@@ -1,4 +1,5 @@
 const url = 'http://localhost:3000';
+//import { updateCarrito } from './carrito_controller.js';
 
 async function loadNewProducts(){
     const carousel = document.getElementById('carouselLoMasNuevo');
@@ -340,9 +341,81 @@ async function updateCartIconInViews(prodId) {
     });
 }
 
+async function guardarPedido() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userCarrito = user.carrito || [];
+    const direccion = localStorage.getItem("direccion") || "Sin dirección registrada";
+  
+    try {
+      const resProd = await fetch('/api/products');
+      const prodData = await resProd.json();
+      const productos = prodData.data;
+  
+      const items = userCarrito.map(p => {
+        const producto = productos.find(prod => prod._id === p.producto);
+        if (!producto) return null;
+  
+        const precioConDescuento = producto.price * (1 - (producto.discount || 0) / 100);
+  
+        return {
+          nombre: producto.name,
+          cantidad: p.cantidad,
+          precio: precioConDescuento
+        };
+      }).filter(Boolean); // Elimina productos nulos
+  
+      const total = items.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+  
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          items,
+          total,
+          direccion
+        })
+      });
+  
+      if (res.ok) {
+        console.log("Pedido guardado correctamente");
+        localStorage.removeItem("carrito");
+        localStorage.removeItem("direccion");
+  
+        await fetch(`/api/users/${user._id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ carrito: [] })
+        });
+        sessionStorage.removeItem("pedidoGuardado");
+
+      } else {
+        console.error(" Error al guardar el pedido");
+      }
+  
+    } catch (err) {
+      console.error(" Error al conectar con el backend:", err);
+    }
+  }
 
 // Inicialización
 window.addEventListener('DOMContentLoaded', () => {
     loadNewProducts();
     loadFavoriteProducts();
+  
+    const params = new URLSearchParams(window.location.search);
+    const alreadySaved = sessionStorage.getItem("pedidoGuardado");
+  
+    if (params.get("success") === "true" && !alreadySaved) {
+      guardarPedido();
+      sessionStorage.setItem("pedidoGuardado", "true");
+  
+      // Mostrar mensaje de agradecimiento
+      const mensaje = document.getElementById("mensajeGracias");
+      if (mensaje) mensaje.style.display = "block";
+  
+      // Limpiar ?success=true visualmente
+      history.replaceState(null, '', window.location.pathname);
+    }
 });
+  

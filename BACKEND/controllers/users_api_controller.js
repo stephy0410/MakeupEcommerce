@@ -114,13 +114,14 @@ exports.requireAdmin = function(req, res, next) {
 };
 exports.updateCurrentUser = async function (req, res) {
     try {
-        const userId = req.headers['authorization'];
+        const userId = req.params.id;
         const { username, email, password } = req.body;
 
         const updatedData = {};
         if (username) updatedData.username = username;
         if (email) updatedData.email = email;
         if (password) updatedData.password = password;
+        
 
         const updatedUser = await User.findByIdAndUpdate(
             userId,
@@ -145,7 +146,6 @@ exports.updateCurrentUser = async function (req, res) {
         res.status(500).json({ message: 'Error al actualizar el usuario' });
     }
 };
-
 exports.deleteCurrentUser = async function (req, res) {
     try {
         const userId = req.headers['authorization'];

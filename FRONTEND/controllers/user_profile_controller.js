@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-
 window.updateUser = function () {
     const user = JSON.parse(localStorage.getItem('user'));
     const username = document.getElementById('editName').value.trim();
@@ -29,6 +28,7 @@ window.updateUser = function () {
 
     const authId = user.id;
     const updates = {};
+    console.log('authId:', authId);
 
     if (username && username !== user.username) updates.username = username;
     if (email && email !== user.email) updates.email = email;
@@ -38,12 +38,12 @@ window.updateUser = function () {
         alert('No hiciste cambios');
         return;
     }
-
-    fetch('/api/users/me', {
+    console.log(updates);
+    fetch(`/api/users/${authId}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': authId
+            //'Authorization': authId
         },
         body: JSON.stringify(updates)
     })
@@ -63,7 +63,7 @@ window.updateUser = function () {
         AuthController.handleNavigation();
 
     })
-    .catch(err => alert('Error al actualizar usuario'));
+    .catch(err => alert('Error al actualizar usuarioooooo'));
 };
 
 window.confirmDelete = function () {
