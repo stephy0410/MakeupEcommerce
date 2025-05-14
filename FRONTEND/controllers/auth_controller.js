@@ -69,8 +69,7 @@ const AuthController = {
     logout: function() {
         sessionStorage.clear();
         localStorage.clear();
-        // Redirigir a Home.html y evitar cache
-        location.href = 'Home.html?_=' + new Date().getTime();
+        location.href = 'Home.html?_=' + new Date().getTime(); // evitar cache
     },
 
     redirectWithAuth: function(path) {
@@ -94,7 +93,6 @@ const AuthController = {
             nav.querySelectorAll('[data-admin]').forEach(el => el.parentElement.remove());
         }
 
-        // Si no hay sesión válida
         if (!user || !user.id || !user.username) {
             sessionStorage.clear();
             localStorage.clear();
@@ -108,7 +106,6 @@ const AuthController = {
             return;
         }
 
-        // En Admin.html, si no hay auth param, agregarlo
         if (user && currentPage === 'Admin.html') {
             const urlParams = new URLSearchParams(window.location.search);
             if (!urlParams.has('auth')) {
@@ -116,22 +113,25 @@ const AuthController = {
             }
         }
 
-        // Mostrar íconos de usuario
         if (authIcons) {
             authIcons.innerHTML = `
                 <a href="./Pedidos.html" class="nav-link" title="Mis pedidos">
                     <i class="fas fa-receipt" style="color: black; padding: 4px;"></i>
                 </a>
-                <a href="./Carrito.html" class="nav-link">
-                    <i class="fa-solid fa-cart-shopping" style= color: black; padding: 4px;"></i>
+                <a href="./Carrito.html" class="nav-link position-relative">
+                    <i class="fa-solid fa-cart-shopping" style="color: black; padding: 4px;"></i>
+                    <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        0
+                    </span>
                 </a>
                 <i class="fa-solid fa-gear nav-link" style="padding: 5px;" data-bs-toggle="modal" data-bs-target="#editUserModal"></i>
                 <a class="nav-link" href="#" title="Cerrar sesión" data-bs-toggle="modal" data-bs-target="#logoutModal">
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
-
             `;
         }
+
+        this.updateCartCount();
 
         // Agregar menú admin si aplica
         if (user.role === 'admin' && nav) {
@@ -159,8 +159,20 @@ const AuthController = {
                 AuthController.logout();
             });
         });
+    },
+
+    updateCartCount: function () {
+        const user = this.getCurrentUser();
+        const carrito = user?.carrito || [];
+        const totalItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+        const cartCountSpan = document.getElementById("cart-count");
+        if (cartCountSpan) {
+            cartCountSpan.textContent = totalItems;
+            cartCountSpan.style.display = totalItems > 0 ? 'inline-block' : 'none';
+        }
     }
 };
+
 function toggleForms() {
     let form_login = document.getElementById('formLogin');
     let form_register = document.getElementById('formRegister');

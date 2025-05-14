@@ -103,7 +103,7 @@ async function loadFilteredProducts() {
                         const updatedCart = await r.json();
                         user.carrito = updatedCart;
                         localStorage.setItem('user', JSON.stringify(user));
-
+                        AuthController.updateCartCount();
                         if (updatedCart.some(item => item.producto === prod._id)) {
                             cartIcon.classList.add('in-cart');
                         } else {

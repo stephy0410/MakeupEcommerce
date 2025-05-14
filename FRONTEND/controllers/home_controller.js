@@ -113,6 +113,8 @@ async function loadNewProducts(){
                         const newFavs = await r.json();
                         user.favoritos = newFavs;
                         localStorage.setItem('user', JSON.stringify(user));
+                       
+
                         //await loadNewProducts();
                         await loadFavoriteProducts();
                     // Alternar clase visual
@@ -131,7 +133,8 @@ async function loadNewProducts(){
                         const updatedCart = await r.json();
                         user.carrito = updatedCart;
                         localStorage.setItem('user', JSON.stringify(user));
-                    
+                        AuthController.updateCartCount();
+
                         updateCartIconInViews(prod._id);
                         //await loadNewProducts();
                         await loadFavoriteProducts(); 
@@ -307,6 +310,9 @@ async function loadFavoriteProducts(){
                         const updatedCart = await r.json();
                         user.carrito = updatedCart;
                         localStorage.setItem('user', JSON.stringify(user));
+                        AuthController.updateCartCount();
+
+
                 
                         updateCartIconInViews(prod._id);
                         await loadNewProducts();

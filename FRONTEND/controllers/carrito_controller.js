@@ -59,6 +59,7 @@ async function showProducts() {
                 // Actualizar localStorage y vista
                 user.carrito = user.carrito.filter(p => p.producto !== prod.producto);
                 localStorage.setItem('user', JSON.stringify(user));
+                AuthController.updateCartCount();
                 card_div.remove();
                 priceProducts();
                 if (user.carrito.length === 0) {
