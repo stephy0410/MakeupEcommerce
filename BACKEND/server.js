@@ -24,7 +24,8 @@ app.use('/api', userRoutes);
 app.use(express.static(path.join(__dirname, '../FRONTEND')));
 app.use(express.static(path.join(__dirname, '../FRONTEND/views')));
 // Middleware para proteger rutas HTML si no hay sesión
-const pathRequiresAuth = ['/Admin.html'];
+const pathRequiresAuth = ['/Admin.html', '/Carrito.html'];
+
 
 app.use((req, res, next) => {
     if (pathRequiresAuth.includes(req.path)) {

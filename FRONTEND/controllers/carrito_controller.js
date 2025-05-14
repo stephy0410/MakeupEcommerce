@@ -418,6 +418,13 @@ async function html_stripe() {
 
 // Se carga la pag
 window.addEventListener('DOMContentLoaded', () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user || !user.id) {
+        alert("Por favor inicia sesión primero.");
+        window.location.href = "Login.html";
+        return;
+    }
+
     showProducts();
     priceProducts();
     html_stripe();
