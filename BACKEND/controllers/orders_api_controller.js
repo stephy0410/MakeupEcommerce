@@ -1,5 +1,5 @@
 const Order = require('../models/order');
-
+const User = require('../models/user');
 // Crear un nuevo pedido
 exports.createOrder = async (req, res) => {
   try {
@@ -9,9 +9,8 @@ exports.createOrder = async (req, res) => {
       return res.status(400).json({ error: 'Faltan datos obligatorios del pedido' });
     }
 
-    // Evita duplicados: busca pedidos del mismo usuario, mismo total, hace menos de 1 minuto
+    // Evita duplicados
     const haceUnMinuto = new Date(Date.now() - 60000);
-
     const duplicado = await Order.findOne({
       userId,
       total,
@@ -23,6 +22,7 @@ exports.createOrder = async (req, res) => {
       return res.status(409).json({ message: 'Pedido duplicado detectado. Ya fue registrado recientemente.' });
     }
 
+    // Crear el pedido
     const newOrder = new Order({
       userId,
       items,
@@ -32,7 +32,11 @@ exports.createOrder = async (req, res) => {
 
     await newOrder.save();
 
+    // 🧹 Vaciar el carrito del usuario en la base de datos
+    await User.findByIdAndUpdate(userId, { carrito: [] });
+
     res.status(201).json({ message: 'Pedido guardado correctamente', order: newOrder });
+
   } catch (error) {
     console.error('Error al crear el pedido:', error);
     res.status(500).json({ error: 'Error interno al guardar el pedido' });
