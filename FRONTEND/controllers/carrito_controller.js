@@ -59,7 +59,8 @@ async function showProducts() {
                 // Actualizar localStorage y vista
                 user.carrito = user.carrito.filter(p => p.producto !== prod.producto);
                 localStorage.setItem('user', JSON.stringify(user));
-                AuthController.updateCartCount();
+                updateCartCount();
+
                 card_div.remove();
                 priceProducts();
                 if (user.carrito.length === 0) {
@@ -181,6 +182,7 @@ async function showProducts() {
                 // Actualizar en localStore y MongoDB
                 user.carrito = user_carrito;
                 localStorage.setItem('user', JSON.stringify(user));
+                updateCartCount();
                 updateCarrito(user.id, user.carrito);
                 priceProducts();
             }
@@ -210,6 +212,7 @@ async function showProducts() {
             // Actualizar en localStore y MongoDB
             user.carrito = user_carrito;
             localStorage.setItem('user', JSON.stringify(user));
+            updateCartCount();
             updateCarrito(user.id, user.carrito);
             priceProducts();
         });

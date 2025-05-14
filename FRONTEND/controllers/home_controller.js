@@ -113,8 +113,7 @@ async function loadNewProducts(){
                         const newFavs = await r.json();
                         user.favoritos = newFavs;
                         localStorage.setItem('user', JSON.stringify(user));
-                       
-
+                        updateCartCount();
                         //await loadNewProducts();
                         await loadFavoriteProducts();
                     // Alternar clase visual
@@ -133,8 +132,7 @@ async function loadNewProducts(){
                         const updatedCart = await r.json();
                         user.carrito = updatedCart;
                         localStorage.setItem('user', JSON.stringify(user));
-                        AuthController.updateCartCount();
-
+                        updateCartCount();
                         updateCartIconInViews(prod._id);
                         //await loadNewProducts();
                         await loadFavoriteProducts(); 
@@ -295,6 +293,7 @@ async function loadFavoriteProducts(){
                         const newFavs = await r.json();
                         user.favoritos = newFavs;
                         localStorage.setItem('user', JSON.stringify(user));
+                        updateCartCount();
                         await loadNewProducts();
                         await loadFavoriteProducts();
                     });
@@ -310,10 +309,7 @@ async function loadFavoriteProducts(){
                         const updatedCart = await r.json();
                         user.carrito = updatedCart;
                         localStorage.setItem('user', JSON.stringify(user));
-                        AuthController.updateCartCount();
-
-
-                
+                        updateCartCount();
                         updateCartIconInViews(prod._id);
                         await loadNewProducts();
                         await loadFavoriteProducts(); 
@@ -409,6 +405,7 @@ async function guardarPedido() {
         // Limpieza en almacenamiento local
         user.carrito = [];
         localStorage.setItem("user", JSON.stringify(user));
+        updateCartCount();
         localStorage.removeItem("carrito");
         localStorage.removeItem("direccion");
         sessionStorage.removeItem("pedidoGuardado");

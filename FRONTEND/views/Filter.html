@@ -265,7 +265,20 @@
                     document.getElementById("editUserModal"),
                     options,
                 );
+               
             </script>
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    AuthController.handleNavigation(); // Crea los íconos de sesión y carrito
+                    setTimeout(() => updateCartCount(), 0); // Espera al DOM actualizado
+                });
+                
+                window.addEventListener('pageshow', () => {
+                    updateCartCount(); // Para cuando regresas con el botón "atrás"
+                });
+                </script>
+                
+            
     
         <footer>
             <!-- place footer here -->

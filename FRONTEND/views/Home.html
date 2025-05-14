@@ -363,6 +363,10 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             AuthController.handleNavigation();
+            updateCartCount(); 
+        });
+        window.addEventListener('pageshow', () => {
+            updateCartCount(); 
         });
     </script>
 

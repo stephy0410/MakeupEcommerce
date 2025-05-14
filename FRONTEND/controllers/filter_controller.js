@@ -86,6 +86,7 @@ async function loadFilteredProducts() {
                     const newFavs = await r.json();
                     user.favoritos = newFavs;
                     localStorage.setItem('user', JSON.stringify(user));
+                    updateCartCount();
 
                     // Toggle visual del ícono
                     heartIcon.classList.toggle('fa-regular');
@@ -103,7 +104,8 @@ async function loadFilteredProducts() {
                         const updatedCart = await r.json();
                         user.carrito = updatedCart;
                         localStorage.setItem('user', JSON.stringify(user));
-                        AuthController.updateCartCount();
+                        updateCartCount();
+
                         if (updatedCart.some(item => item.producto === prod._id)) {
                             cartIcon.classList.add('in-cart');
                         } else {

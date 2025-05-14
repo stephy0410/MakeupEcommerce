@@ -69,7 +69,8 @@ const AuthController = {
     logout: function() {
         sessionStorage.clear();
         localStorage.clear();
-        location.href = 'Home.html?_=' + new Date().getTime(); // evitar cache
+        // Redirigir a Home.html y evitar cache
+        location.href = 'Home.html?_=' + new Date().getTime();
     },
 
     redirectWithAuth: function(path) {
@@ -93,6 +94,7 @@ const AuthController = {
             nav.querySelectorAll('[data-admin]').forEach(el => el.parentElement.remove());
         }
 
+        // Si no hay sesión válida
         if (!user || !user.id || !user.username) {
             sessionStorage.clear();
             localStorage.clear();
@@ -106,6 +108,7 @@ const AuthController = {
             return;
         }
 
+        // En Admin.html, si no hay auth param, agregarlo
         if (user && currentPage === 'Admin.html') {
             const urlParams = new URLSearchParams(window.location.search);
             if (!urlParams.has('auth')) {
@@ -113,6 +116,7 @@ const AuthController = {
             }
         }
 
+        // Mostrar íconos de usuario
         if (authIcons) {
             authIcons.innerHTML = `
                 <a href="./Pedidos.html" class="nav-link" title="Mis pedidos">
@@ -124,14 +128,14 @@ const AuthController = {
                         0
                     </span>
                 </a>
+
                 <i class="fa-solid fa-gear nav-link" style="padding: 5px;" data-bs-toggle="modal" data-bs-target="#editUserModal"></i>
                 <a class="nav-link" href="#" title="Cerrar sesión" data-bs-toggle="modal" data-bs-target="#logoutModal">
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
+
             `;
         }
-
-        this.updateCartCount();
 
         // Agregar menú admin si aplica
         if (user.role === 'admin' && nav) {
@@ -159,19 +163,9 @@ const AuthController = {
                 AuthController.logout();
             });
         });
-    },
-
-    updateCartCount: function () {
-        const user = this.getCurrentUser();
-        const carrito = user?.carrito || [];
-        const totalItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
-        const cartCountSpan = document.getElementById("cart-count");
-        if (cartCountSpan) {
-            cartCountSpan.textContent = totalItems;
-            cartCountSpan.style.display = totalItems > 0 ? 'inline-block' : 'none';
-        }
     }
 };
+
 
 function toggleForms() {
     let form_login = document.getElementById('formLogin');
@@ -246,3 +240,16 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+window.updateCartCount = function () {
+    const user = JSON.parse(localStorage.getItem('user')); // ✅ siempre lee el actual
+    const cartCountEl = document.getElementById('cart-count');
+
+    if (!cartCountEl || !user || !user.carrito) {
+        if (cartCountEl) cartCountEl.style.display = 'none';
+        return;
+    }
+
+    const total = user.carrito.reduce((sum, item) => sum + item.cantidad, 0);
+    cartCountEl.textContent = total;
+    cartCountEl.style.display = total > 0 ? 'inline-block' : 'none';
+};

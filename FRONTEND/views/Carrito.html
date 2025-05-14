@@ -229,6 +229,10 @@
         <script>
         document.addEventListener("DOMContentLoaded", () => {
             AuthController.handleNavigation();
+            updateCartCount(); 
+        });
+        window.addEventListener('pageshow', () => {
+            updateCartCount(); 
         });
         </script>
         <script src="./controllers/auth_controller.js"></script>

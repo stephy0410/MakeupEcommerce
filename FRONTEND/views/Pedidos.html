@@ -139,9 +139,14 @@
   <script src="../controllers/pedido_controller.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      AuthController.handleNavigation();
-      
+        AuthController.handleNavigation(); // Crea los íconos de sesión y carrito
+        setTimeout(() => updateCartCount(), 0); // Espera al DOM actualizado
     });
-  </script>
+    
+    window.addEventListener('pageshow', () => {
+        updateCartCount(); // Para cuando regresas con el botón "atrás"
+    });
+    </script>
+    
 </body>
 </html>
