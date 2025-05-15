@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mis Pedidos - Rosée</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Euphoria+Script&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/4bb0cb35f0.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+      background-color: #F5EEF0;
+    }
+
+    .pedido-card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .pedido-card h5 {
+      color: #6D2D2F;
+      font-weight: bold;
+    }
+
+    .producto-item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #ddd;
+      padding: 5px 0;
+    }
+
+    .producto-item:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-light bg-light"> 
+            <div class="container">
+                <a class="navbar-brand" style="font-family: 'Euphoria Script', cursive;" href="#" onclick="AuthController.redirectWithAuth('Home.html')">Rosée</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavId">
+                    <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="AuthController.redirectWithAuth('Home.html')">Home</a> 
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Productos</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownId">
+                                <a class="dropdown-item" href="./Filter.html?tag=Primer">Primer</a>
+                                <a class="dropdown-item" href="./Filter.html?tag=Blush">Blush</a>
+                                <a class="dropdown-item" href="./Filter.html?tag=Rimel">Rimel</a>
+                                <a class="dropdown-item" href="./Filter.html?tag=Labial">Labial</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- Contenedor que se actualizará dinámicamente según el login -->
+                    <div class="d-flex align-items-center ms-2" id="authIcons"></div>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+  <main class="container mt-5">
+    <h2 class="mb-4">Mis pedidos</h2>
+    <div id="pedidosContainer"></div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Modal: Cerrar Sesión -->
+    <div class="modal fade" id="logoutModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cerrar Sesión</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que deseas cerrar sesión?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-danger" onclick="AuthController.logout()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Editar Usuario -->
+    <div class="modal fade" id="editUserModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="editName" class="form-label">Usuario</label>
+                            <input type="text" class="form-control" id="editName" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editEmail" class="form-label">Correo</label>
+                            <input type="text" class="form-control" id="editEmail" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPassword" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="editPassword" name="password" required>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-danger me-auto" onclick="confirmDelete()"
+                                id="deleteBtn">Eliminar</button>
+                            <button type="button" class="btn btn-primary" onclick="updateUser()" id="saveBtn">Guardar
+                                Cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional: Place to the bottom of scripts -->
+    <script>
+        const myModal = new bootstrap.Modal(
+            document.getElementById("editUserModal"),
+            {}
+        );
+    </script>
+  <script src="../controllers/auth_controller.js"></script>
+  <script src="../controllers/user_profile_controller.js"></script>
+  <script src="../controllers/pedido_controller.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        AuthController.handleNavigation(); // Crea los íconos de sesión y carrito
+        setTimeout(() => updateCartCount(), 0); // Espera al DOM actualizado
+    });
+    
+    window.addEventListener('pageshow', () => {
+        updateCartCount(); // Para cuando regresas con el botón "atrás"
+    });
+    </script>
+    
+</body>
+</html>
