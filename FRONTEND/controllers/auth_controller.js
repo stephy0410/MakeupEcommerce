@@ -163,6 +163,11 @@ const AuthController = {
                 AuthController.logout();
             });
         });
+        // Actualizar contador del carrito al navegar
+        if (typeof updateCartCount === 'function') {
+            updateCartCount();
+        }
+
     }
 };
 
@@ -253,3 +258,12 @@ window.updateCartCount = function () {
     cartCountEl.textContent = total;
     cartCountEl.style.display = total > 0 ? 'inline-block' : 'none';
 };
+window.addEventListener('storage', function (event) {
+    if (event.key === 'user') {
+        AuthController.handleNavigation();
+        if (typeof updateCartCount === 'function') {
+            updateCartCount();
+        }
+    }
+});
+

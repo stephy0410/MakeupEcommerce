@@ -67,17 +67,23 @@ window.updateUser = function () {
         const currentSessionUser = JSON.parse(sessionStorage.getItem('user'));
         const currentLocalUser = JSON.parse(localStorage.getItem('user'));
     
-        const mergedSessionUser = { ...currentSessionUser, ...data };
-        const mergedLocalUser = { ...currentLocalUser, ...data };
+        const mergedUser = {
+            ...currentLocalUser,
+            ...data,
+            carrito: currentLocalUser.carrito || [],
+            favoritos: currentLocalUser.favoritos || []
+        };
     
-        sessionStorage.setItem('user', JSON.stringify(mergedSessionUser));
-        localStorage.setItem('user', JSON.stringify(mergedLocalUser));
+        sessionStorage.setItem('user', JSON.stringify(mergedUser));
+        localStorage.setItem('user', JSON.stringify(mergedUser));
     
         const modal = bootstrap.Modal.getInstance(document.getElementById('editUserModal'));
         if (modal) modal.hide();
     
         AuthController.handleNavigation();
+        if (typeof updateCartCount === 'function') updateCartCount();
     })
+    
     .catch(err => {
         alert(err.message || 'Error al actualizar usuario');
     });    
@@ -127,8 +133,12 @@ window.populateUserModal = function () {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('editUserModal');
-    if (modal) {
-        modal.addEventListener('show.bs.modal', populateUserModal);
+    const modalElement = document.getElementById('editUserModal');
+    if (modalElement) {
+        modalElement.addEventListener('show.bs.modal', function () {
+            // Siempre lee los datos actuales antes de abrir
+            populateUserModal();
+        });
     }
 });
+
