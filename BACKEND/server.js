@@ -1,13 +1,15 @@
+
 const express = require('express');
 const path = require('path');
 const connectDB = require('./database/db');
 const apiRoutes = require('./routes/api');
-const adminRoutes = require('./routes/admin'); // Añade esta línea
+const adminRoutes = require('./routes/admin'); 
 const cors = require('cors');
 const dotenv = require('dotenv');
+dotenv.config({ path: path.join(__dirname, './.env') });
 const userRoutes = require('./routes/users');
 const stripeController = require('./controllers/stripe_api_controller');
-dotenv.config();
+
 const app = express();
 
 // Connect to MongoDB

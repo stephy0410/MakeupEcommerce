@@ -2,8 +2,6 @@
 const mongoose = require('mongoose');
 
 
-const mongoConnection = "mongodb+srv://stephy04:Brownie5@cluster0.0ycletr.mongodb.net/MakeupEcommerceDB";
-//const mongoConnection = "mongodb+srv://yanaelinagarcia:Sesamo00@cluster0.ukb7l2l.mongodb.net/MakeupECommerce";
 
 const db = mongoose.connection;
 
@@ -18,10 +16,17 @@ db.on('connected', () => {
 
 const connectDB = async () => {
     try {
+        
+        const mongoConnection = process.env.MONGO_URI;
+        
+        if (!mongoConnection) {
+            throw new Error('MONGO_URI no está definida en las variables de entorno');
+        }
+        
+        console.log('Iniciando conexión a MongoDB...');
         await mongoose.connect(mongoConnection);
-        console.log('MongoDB connected successfully');
     } catch (err) {
-        console.error('MongoDB connection error:', err);
+        console.error('✗ Error de conexión a MongoDB:', err.message);
         process.exit(1);
     }
 };
